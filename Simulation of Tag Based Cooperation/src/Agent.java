@@ -379,7 +379,8 @@ public class Agent
 		System.out.println("\tneighbours before rewiring = " + getNeighboursAsString());
 		//rewireRandom(graph, 2);
 		//rewireRandomReplaceWorst(graph, 2);
-		rewireIndividualReplaceWorst(graph, 2);
+		// rewireIndividualReplaceWorst(graph, 2);
+		rewireGroupReplaceWorst(graph, 2);
 		System.out.println("\t neighbours after rewiring = " + getNeighboursAsString());
 	}
 	
@@ -521,6 +522,55 @@ public class Agent
 		if (additionalNeighbourCount > 0)
 		{
 			addRandomNeighbours(graph, additionalNeighbourCount);
+		}
+	}
+	
+	
+	public void rewireGroupReplaceWorst(Graph graph, int count)
+	{
+		count = Math.min(count, neighbours.size());
+		removeWorstNeighbours(count);
+
+		ArrayList<Agent> bestNeighbours = getBestNeighbours(count);
+		ArrayList<Agent> suggestedNeighbours = new ArrayList<Agent>();
+		
+		// Get best neighbours from each of our best neighbours
+		for (Agent bestNeighbour : bestNeighbours)
+		{
+			Agent suggestion = bestNeighbour.getBestNeighbour();
+			if (suggestion == null)
+			{
+				continue;
+			}
+			
+			if (suggestedNeighbours.contains(suggestion))
+			{
+				continue;
+			}
+			
+			if (suggestion == this)
+			{
+				continue;
+			}
+			
+			if (!canAddEdgeTo(suggestion))
+			{
+				continue;
+			}
+			
+			suggestedNeighbours.add(suggestion);
+		}
+		
+		for (Agent suggestedNeighbour : suggestedNeighbours)
+		{
+			addEdgeTo(suggestedNeighbour);
+		}
+		
+		count = count - suggestedNeighbours.size();
+		
+		if (count > 0)
+		{
+			addRandomNeighbours(graph, count);
 		}
 	}
 	
