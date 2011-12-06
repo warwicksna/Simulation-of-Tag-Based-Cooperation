@@ -384,13 +384,19 @@ public class Agent
 	
 	protected void rewireRandom(Graph graph, int count)
 	{
+		count = Math.min(count, neighbours.size());
+		
+		removeRandomNeighbours(count);
+		addRandomNeighbours(graph, count);
+	}
+	
+	protected void removeRandomNeighbours(int count)
+	{
 		ArrayList<Agent> neighboursToRemove = new ArrayList<Agent>(neighbours);
 		
-		int numberToRemove = Math.min(count, neighboursToRemove.size());
+		System.out.println("\tremoving " + count + " neighbours");
 		
-		System.out.println("\tremoving " + numberToRemove + " neighbours");
-		
-		for (int i = 0; i < numberToRemove; i++)
+		for (int i = 0; i < count; i++)
 		{
 			int randomIndex = randomNumberGenerator.nextInt(neighboursToRemove.size());
 			Agent neighbourToRemove = neighboursToRemove.get(randomIndex);
@@ -400,10 +406,13 @@ public class Agent
 		}
 		
 		neighbours = neighboursToRemove;
-		
+	}
+	
+	protected void addRandomNeighbours(Graph graph, int count)
+	{
 		System.out.println("\tadding neighbours");
 		
-		for (int i = 0; i < numberToRemove; )
+		for (int i = 0; i < count; )
 		{
 			Agent randomAgent = graph.getRandomAgent();
 			
@@ -418,10 +427,9 @@ public class Agent
 		}
 	}
 	
-	protected void rewireRandomReplaceWorst(Graph graph, int count)
+	protected void removeWorstNeighbours(int count)
 	{
 		ArrayList<Agent> neighboursToRemove = new ArrayList<Agent>(neighbours);
-		int numberToRemove = Math.min(count, neighboursToRemove.size());
 		
 		// order neighbours in by rank
 		HashMap<Agent, Integer> neighbourRanks = new HashMap<Agent, Integer>();
@@ -440,7 +448,7 @@ public class Agent
 		}
 			
 		// pick out n worst
-		for (int i = 0; i < numberToRemove; i++)
+		for (int i = 0; i < count; i++)
 		{
 			Agent worstNeighbour = null;
 			int worstRank = 10000;
@@ -467,24 +475,14 @@ public class Agent
 			System.out.println("\t\tremoving neighbour " + worstNeighbour.getAgentId());
 		}
 		
-		// add n random neighbours
 		neighbours = neighboursToRemove;
-		
-		System.out.println("\tadding neighbours");
-		
-		for (int i = 0; i < numberToRemove; )
-		{
-			Agent randomAgent = graph.getRandomAgent();
-			
-			if (!canAddEdgeTo(randomAgent))
-			{
-				continue;
-			}
-			
-			addEdgeTo(randomAgent);
-			System.out.println("\t\tadding neighbour " + randomAgent.getAgentId());
-			i++;
-		}
+	}
+	
+	protected void rewireRandomReplaceWorst(Graph graph, int count)
+	{
+		count = Math.min(count, neighbours.size());
+		removeWorstNeighbours(count);
+		addRandomNeighbours(graph, count);
 	}
 	
 	public void printObservations()
