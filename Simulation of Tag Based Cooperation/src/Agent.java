@@ -378,7 +378,8 @@ public class Agent
 	{
 		System.out.println("\tneighbours before rewiring = " + getNeighboursAsString());
 		//rewireRandom(graph, 2);
-		rewireRandomReplaceWorst(graph, 2);
+		//rewireRandomReplaceWorst(graph, 2);
+		rewireIndividualReplaceWorst(graph, 2);
 		System.out.println("\t neighbours after rewiring = " + getNeighboursAsString());
 	}
 	
@@ -432,21 +433,8 @@ public class Agent
 		ArrayList<Agent> neighboursToRemove = new ArrayList<Agent>(neighbours);
 		
 		// order neighbours in by rank
-		HashMap<Agent, Integer> neighbourRanks = new HashMap<Agent, Integer>();
-		
-		for (Agent neighbour : neighbours)
-		{
-			ObservationQueue queue = neighbourhoodObservations.get(neighbour);
-			int rank = 0;
-			
-			if (queue != null)
-			{
-				rank = queue.getRank();
-			}
-			
-			neighbourRanks.put(neighbour, new Integer(rank));
-		}
-			
+		HashMap<Agent, Integer> neighbourRanks = getRankedNeighbours();
+
 		// pick out n worst
 		for (int i = 0; i < count; i++)
 		{
@@ -483,6 +471,120 @@ public class Agent
 		count = Math.min(count, neighbours.size());
 		removeWorstNeighbours(count);
 		addRandomNeighbours(graph, count);
+	}
+	
+	public void rewireIndividualReplaceWorst(Graph graph, int count)
+	{
+		count = Math.min(count, neighbours.size());
+		removeWorstNeighbours(count);
+		
+		Agent bestNeighbour = getBestNeighbour();
+		ArrayList<Agent> bestNeighbours = bestNeighbour.getBestNeighbours(count);
+		
+		ArrayList<Agent> selectedNeighbours = new ArrayList<Agent>();
+		
+		for (Agent neighbour : bestNeighbours)
+		{
+			if (neighbour == this)
+			{
+				continue;
+			}
+			
+			if (neighbours.contains(this))
+			{
+				continue;
+			}
+			
+			if (canAddEdgeTo(neighbour))
+			{
+				selectedNeighbours.add(neighbour);
+			}
+		}
+		
+		// add neighbours
+		for (Agent neighbour : selectedNeighbours)
+		{
+			if (canAddEdgeTo(neighbour))
+			{
+				addEdgeTo(neighbour);
+			}
+			else
+			{
+				System.out.println("cannot add edge");
+			}
+		}
+		
+		System.out.println("adding remaining neighbours");
+		
+		// add random neighbours
+		int additionalNeighbourCount = count - selectedNeighbours.size();
+		if (additionalNeighbourCount > 0)
+		{
+			addRandomNeighbours(graph, additionalNeighbourCount);
+		}
+	}
+	
+	public HashMap<Agent, Integer> getRankedNeighbours()
+	{
+		HashMap<Agent, Integer> neighbourRanks = new HashMap<Agent, Integer>();
+		
+		for (Agent neighbour : neighbours)
+		{
+			ObservationQueue queue = neighbourhoodObservations.get(neighbour);
+			int rank = 0;
+			
+			if (queue != null)
+			{
+				rank = queue.getRank();
+			}
+			
+			neighbourRanks.put(neighbour, new Integer(rank));
+		}
+		
+		return neighbourRanks;
+	}
+	
+	public ArrayList<Agent> getBestNeighbours(int count)
+	{
+		ArrayList<Agent> bestNeighbours = new ArrayList<Agent>();
+		HashMap<Agent, Integer> neighbourRanks = getRankedNeighbours();
+		
+		for (int i = 0; i < count; i++)
+		{
+			Agent bestNeighbour = null;
+			int bestRank = 0;
+			
+			for (Agent neighbour : neighbourRanks.keySet())
+			{
+				int rank = neighbourRanks.get(neighbour).intValue();
+				
+				if (rank >= bestRank)
+				{
+					bestNeighbour = neighbour;
+					bestRank = rank;
+				}
+			}
+			
+			if (bestNeighbour == null)
+			{
+				continue;
+			}
+			
+			bestNeighbours.add(bestNeighbour);
+		}
+		
+		return bestNeighbours;
+	}
+	
+	public Agent getBestNeighbour()
+	{
+		ArrayList<Agent> bestNeighbours = getBestNeighbours(1);
+		if (bestNeighbours == null || bestNeighbours.isEmpty())
+		{
+			return null;
+		}
+		
+		return getBestNeighbours(1).get(0);
 	}
 	
 	public void printObservations()
