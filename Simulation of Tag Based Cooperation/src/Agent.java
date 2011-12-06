@@ -106,14 +106,12 @@ public class Agent
 	}
 	
 	// Edge limited methods
-	
 	public boolean hasAvailableEdges()
 	{
 		return getNeighbourCount() < maxEdgeCount;
 	}
 	
 	// Agent methods
-	
 	public double getTag()
 	{
 		return tag;
@@ -191,11 +189,33 @@ public class Agent
 		score -= kDonationCost;
 		
 		neighbour.receive();
+		pushObservations(true);
 	}
 	
-	private void receive()
+	public void receive()
 	{
 		score += kReceipientBenefit;
+	}
+	
+	protected void pushObservations(boolean didDonate)
+	{
+		for (Agent neighbour : neighbours)
+		{
+			neighbour.observe(this, didDonate);
+		}
+	}
+	
+	// TODO: observation probabilities
+	public void observe(Agent neighbour, boolean didDonate)
+	{
+		ObservationQueue neighbourObservations = neighbourhoodObservations.get(neighbour);
+		if (neighbourObservations == null)
+		{
+			neighbourObservations = new ObservationQueue(5);
+			neighbourhoodObservations.put(neighbour, neighbourObservations);
+		}
+		
+		neighbourObservations.observe(didDonate);
 	}
 
 	public String toString()
@@ -241,6 +261,10 @@ public class Agent
 			if (shouldDonateToNeighbour(neighbour))
 			{
 				donate(neighbour);
+			}
+			else
+			{
+				pushObservations(false);
 			}
 		}
 	}
@@ -347,6 +371,19 @@ public class Agent
 			tolerance = newTolerance;
 			
 			// rewire
+		}
+	}
+	
+	public void printObservations()
+	{
+		System.out.format("Agent %3d's observations\n", getAgentId());
+		for (Agent neighbour : neighbours)
+		{
+			ObservationQueue queue = neighbourhoodObservations.get(neighbour);
+			String observationString;
+			observationString = (queue != null) ? queue.toString()  : "";
+			
+			System.out.format("\tObservations for Agent %d = %s\n", neighbour.getAgentId(), observationString);
 		}
 	}
 	

@@ -11,6 +11,7 @@ public class STBC {
 		System.out.println("Beginning simulation");
 		graph.play(10);
 		System.out.println("Simulation ended");
+		graph.printObservations();
 	}
 	
 }

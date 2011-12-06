@@ -26,7 +26,14 @@ public class ObservationQueue
 		
 		for (Boolean observation : observations)
 		{
-			observationString += " " + (observation.booleanValue());
+			if (observation.booleanValue())
+			{
+				observationString += " +";
+			}
+			else
+			{
+				observationString += " -";
+			}
 		}
 		
 		return observationString;

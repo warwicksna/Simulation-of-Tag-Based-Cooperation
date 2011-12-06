@@ -8,7 +8,6 @@ public class Graph {
 	
 	public Graph()
 	{
-		
 	}
 	
 	public void createAgents(int agentCount)
@@ -82,6 +81,14 @@ public class Graph {
 	{
 		int neighbourIndex = randomNumberGenerator.nextInt(nodes.size());
 		return nodes.get(neighbourIndex);
+	}
+	
+	public void printObservations()
+	{
+		for (Agent agent : nodes)
+		{
+			agent.printObservations();
+		}
 	}
 	
 }
