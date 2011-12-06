@@ -376,7 +376,10 @@ public class Agent
 	
 	public void rewire(Graph graph)
 	{
-		rewireRandom(graph, 2);
+		System.out.println("\tneighbours before rewiring = " + getNeighboursAsString());
+		//rewireRandom(graph, 2);
+		rewireRandomReplaceWorst(graph, 2);
+		System.out.println("\t neighbours after rewiring = " + getNeighboursAsString());
 	}
 	
 	protected void rewireRandom(Graph graph, int count)
@@ -415,6 +418,75 @@ public class Agent
 		}
 	}
 	
+	protected void rewireRandomReplaceWorst(Graph graph, int count)
+	{
+		ArrayList<Agent> neighboursToRemove = new ArrayList<Agent>(neighbours);
+		int numberToRemove = Math.min(count, neighboursToRemove.size());
+		
+		// order neighbours in by rank
+		HashMap<Agent, Integer> neighbourRanks = new HashMap<Agent, Integer>();
+		
+		for (Agent neighbour : neighbours)
+		{
+			ObservationQueue queue = neighbourhoodObservations.get(neighbour);
+			int rank = 0;
+			
+			if (queue != null)
+			{
+				rank = queue.getRank();
+			}
+			
+			neighbourRanks.put(neighbour, new Integer(rank));
+		}
+			
+		// pick out n worst
+		for (int i = 0; i < numberToRemove; i++)
+		{
+			Agent worstNeighbour = null;
+			int worstRank = 10000;
+			
+			for (Agent neighbour : neighbourRanks.keySet())
+			{
+				int rank = neighbourRanks.get(neighbour).intValue();
+				
+				if (rank < worstRank)
+				{
+					worstNeighbour = neighbour;
+					worstRank = rank;
+				}
+			}
+			
+			if (worstNeighbour == null)
+			{
+				continue;
+			}
+			
+			neighboursToRemove.remove(worstNeighbour);
+			neighbourhoodObservations.remove(worstNeighbour);
+			neighbourRanks.remove(worstNeighbour);
+			System.out.println("\t\tremoving neighbour " + worstNeighbour.getAgentId());
+		}
+		
+		// add n random neighbours
+		neighbours = neighboursToRemove;
+		
+		System.out.println("\tadding neighbours");
+		
+		for (int i = 0; i < numberToRemove; )
+		{
+			Agent randomAgent = graph.getRandomAgent();
+			
+			if (!canAddEdgeTo(randomAgent))
+			{
+				continue;
+			}
+			
+			addEdgeTo(randomAgent);
+			System.out.println("\t\tadding neighbour " + randomAgent.getAgentId());
+			i++;
+		}
+	}
+	
 	public void printObservations()
 	{
 		System.out.format("Agent %3d's observations\n", getAgentId());
@@ -426,6 +498,20 @@ public class Agent
 			
 			System.out.format("\tObservations for Agent %d = %s\n", neighbour.getAgentId(), observationString);
 		}
+	}
+	
+	public String getNeighboursAsString()
+	{
+		String neighboursString = "";
+		
+		for (Agent neighbour : neighbours)
+		{
+			neighboursString += String.format(" %d(%d)",
+					neighbour.getAgentId(),
+					Math.round(neighbour.getScore()));
+		}
+		
+		return neighboursString;
 	}
 	
 }

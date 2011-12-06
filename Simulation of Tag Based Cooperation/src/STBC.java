@@ -9,9 +9,9 @@ public class STBC {
 		graph.createNeighbours();
 		graph.listAgents();
 		System.out.println("Beginning simulation");
-		graph.play(10);
+		graph.play(100);
 		System.out.println("Simulation ended");
-		graph.printObservations();
+//		graph.printObservations();
 	}
 	
 }
