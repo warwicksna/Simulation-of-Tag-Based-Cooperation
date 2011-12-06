@@ -370,7 +370,48 @@ public class Agent
 			tag = newTag;
 			tolerance = newTolerance;
 			
-			// rewire
+			rewire(graph);
+		}
+	}
+	
+	public void rewire(Graph graph)
+	{
+		rewireRandom(graph, 2);
+	}
+	
+	protected void rewireRandom(Graph graph, int count)
+	{
+		ArrayList<Agent> neighboursToRemove = new ArrayList<Agent>(neighbours);
+		
+		int numberToRemove = Math.min(count, neighboursToRemove.size());
+		
+		System.out.println("\tremoving " + numberToRemove + " neighbours");
+		
+		for (int i = 0; i < numberToRemove; i++)
+		{
+			int randomIndex = randomNumberGenerator.nextInt(neighboursToRemove.size());
+			Agent neighbourToRemove = neighboursToRemove.get(randomIndex);
+			neighboursToRemove.remove(randomIndex);
+			neighbourhoodObservations.remove(neighbourToRemove);
+			System.out.println("\t\tremoving neighbour " + neighbourToRemove.getAgentId());
+		}
+		
+		neighbours = neighboursToRemove;
+		
+		System.out.println("\tadding neighbours");
+		
+		for (int i = 0; i < numberToRemove; )
+		{
+			Agent randomAgent = graph.getRandomAgent();
+			
+			if (!canAddEdgeTo(randomAgent))
+			{
+				continue;
+			}
+			
+			addEdgeTo(randomAgent);
+			System.out.println("\t\tadding neighbour " + randomAgent.getAgentId());
+			i++;
 		}
 	}
 	
