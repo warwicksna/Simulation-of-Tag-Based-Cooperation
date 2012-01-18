@@ -4,7 +4,7 @@ public class CooperationSimulation
 	{		
 		new CooperationSimulation(true);
 		new CooperationSimulation(false);
-		// new CooperationSimulation("test_graph.xml");
+		new CooperationSimulation("test_graph.xml");
 	}
 	
 	public CooperationSimulation(boolean shouldUseDirectedGraph)
