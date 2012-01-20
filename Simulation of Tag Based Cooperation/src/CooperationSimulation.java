@@ -38,6 +38,7 @@ public class CooperationSimulation
 	
 	public CooperationSimulation(String graphMLFilename)
 	{
+                System.out.println("test");
 		// read graphml
 		// create directed graph / undirected graph based on xml
 		// construct graph from xml
