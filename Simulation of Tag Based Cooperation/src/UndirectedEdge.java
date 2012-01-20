@@ -29,4 +29,14 @@ public class UndirectedEdge extends AbstractEdge
 	{
 		return String.format("%s <--> %s", vertexAId, vertexBId);
 	}
+	
+	public String firstVertexId()
+	{
+		return vertexAId;
+	}
+	
+	public String secondVertexId()
+	{
+		return vertexBId;
+	}
 }

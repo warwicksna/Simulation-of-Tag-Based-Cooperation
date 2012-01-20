@@ -9,9 +9,42 @@ public class CooperationSimulation
 {	
 	public static void main(String args[])
 	{		
+<<<<<<< HEAD
 		//new CooperationSimulation(true);
 		//new CooperationSimulation(false);
+=======
+		new CooperationSimulation();
+		new CooperationSimulation(true);
+		new CooperationSimulation(false);
+>>>>>>> Added ability to remove vertices
 		new CooperationSimulation("test_graph.xml");
+	}
+	
+	public CooperationSimulation()
+	{
+		System.out.println("Testing removing vertices");
+		AbstractGraph graph = new UndirectedGraph();
+		
+		AbstractVertex n0 = new TagScoreVertex(graph, "n0", 0.5, 0.4);
+		graph.addVertex(n0);
+		
+		AbstractVertex n1 = new TagScoreVertex(graph, "n1", 0.1, 0.1);
+		graph.addVertex(n1);
+		
+		graph.addEdge("n0", "n1", "e1");
+		
+		graph.listVertices();
+		graph.listEdges();
+		
+		graph.removeVertex("n0");
+		
+		AbstractVertex n2 = new TagScoreVertex(graph, "n2", 0.9, 0.9);
+		graph.addVertex(n2);
+		
+		graph.addEdge("n1", "n2", "e2");
+		
+		graph.listVertices();
+		graph.listEdges();
 	}
 	
 	public CooperationSimulation(boolean shouldUseDirectedGraph)
@@ -21,12 +54,12 @@ public class CooperationSimulation
 		if (shouldUseDirectedGraph)
 		{
 			graph = new DirectedGraph();
-			System.out.println("Created Directed Graph");
+			System.out.println("Testing Directed Graphs");
 		}
 		else
 		{
 			graph = new UndirectedGraph();
-			System.out.println("Created Undirected Graph");
+			System.out.println("Testing Undirected Graphs");
 		}
 		
 		AbstractVertex newVertex1 = new TagScoreVertex(graph, "Hello", 0.5, 0.4);

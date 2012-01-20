@@ -29,4 +29,14 @@ public class DirectedEdge extends AbstractEdge
 	{
 		return String.format("(%s) %s ---> %s", edgeId, fromVertexId, toVertexId);
 	}
+	
+	public String firstVertexId()
+	{
+		return fromVertexId;
+	}
+	
+	public String secondVertexId()
+	{
+		return toVertexId;
+	}
 }

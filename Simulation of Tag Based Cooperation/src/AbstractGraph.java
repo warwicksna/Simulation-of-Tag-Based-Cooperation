@@ -21,13 +21,50 @@ public abstract class AbstractGraph
 		String vertexId = vertex.vertexId();
 		vertices.put(vertexId, vertex);
 		
-		incidenceList.put(vertex.vertexId(), new ArrayList<String>());
+		incidenceList.put(vertex.vertexId(), new ArrayList<String>());		
 	}
 	
 	public abstract void addEdge(AbstractVertex vertexA, AbstractVertex vertexB);
 	public abstract void addEdge(String vertexAId, String vertexBId);
 	public abstract void addEdge(AbstractVertex vertexA, AbstractVertex vertexB, String edgeId);
 	public abstract void addEdge(String vertexAId, String vertexBId, String edgeId);
+	
+	public void removeVertex(AbstractVertex vertex)
+	{
+		removeVertex(vertex.vertexId());
+	}
+	
+	public void removeVertex(String vertexId)
+	{	
+		ArrayList<String> edgeIdsForVertex = new ArrayList<String>(incidenceList.get(vertexId));
+
+		for (String edgeId : edgeIdsForVertex)
+		{
+			AbstractEdge edge = edges.get(edgeId);
+			String firstVertexId = edge.firstVertexId();
+			String secondVertexId = edge.secondVertexId();
+			
+			String otherVertexId = (vertexId.equals(firstVertexId)) ? secondVertexId : firstVertexId;
+						
+			// remove edge from other vertex id
+			ArrayList<String> edgeIdsForOtherVertex = incidenceList.get(otherVertexId);
+			edgeIdsForOtherVertex.remove(edgeId);
+			
+			// remove edge
+			edges.remove(edgeId);
+		}
+		
+		// remove vertex
+		vertices.remove(vertexId);
+		
+		// remove vertex from incidence list
+		incidenceList.remove(vertexId);
+	}
+	
+//	public abstract void removeEdge(AbstractVertex vertexA, AbstractVertex vertexB);
+//	public abstract void removeEdge(String vertexAId, String vertexBId);
+//	public abstract void removeEdge(AbstractEdge edge);
+//	public abstract void removeEdge(String edgeId);
 	
 	public void listVertices()
 	{
@@ -38,7 +75,7 @@ public abstract class AbstractGraph
 	}
 	
 	public void listEdges()
-	{
+	{		
 		for (Map.Entry<String, ArrayList<String>> edge : incidenceList.entrySet())
 		{
 			System.out.format("%s: ", edge.getKey());

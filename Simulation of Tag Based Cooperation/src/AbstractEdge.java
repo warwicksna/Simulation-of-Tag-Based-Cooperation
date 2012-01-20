@@ -31,4 +31,7 @@ public abstract class AbstractEdge
 	{
 		return edgeId;
 	}
+	
+	public abstract String firstVertexId();
+	public abstract String secondVertexId();
 }
