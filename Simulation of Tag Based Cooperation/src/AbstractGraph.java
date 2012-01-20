@@ -63,7 +63,11 @@ public abstract class AbstractGraph
 	
 //	public abstract void removeEdge(AbstractVertex vertexA, AbstractVertex vertexB);
 //	public abstract void removeEdge(String vertexAId, String vertexBId);
-//	public abstract void removeEdge(AbstractEdge edge);
+	public void removeEdge(AbstractEdge edge)
+	{
+		String edgeId = edge.edgeId();
+		removeEdge(edgeId);
+	}
 	
 	public void removeEdge(String edgeId)
 	{
