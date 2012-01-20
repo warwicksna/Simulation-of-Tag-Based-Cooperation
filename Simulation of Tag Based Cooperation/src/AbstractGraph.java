@@ -64,7 +64,21 @@ public abstract class AbstractGraph
 //	public abstract void removeEdge(AbstractVertex vertexA, AbstractVertex vertexB);
 //	public abstract void removeEdge(String vertexAId, String vertexBId);
 //	public abstract void removeEdge(AbstractEdge edge);
-//	public abstract void removeEdge(String edgeId);
+	
+	public void removeEdge(String edgeId)
+	{
+		AbstractEdge edge = edges.get(edgeId);
+		String firstVertexId = edge.firstVertexId();
+		String secondVertexId = edge.secondVertexId();
+		
+		ArrayList<String> edgeIdsForFirstVertex = incidenceList.get(firstVertexId);
+		edgeIdsForFirstVertex.remove(edgeId);
+		
+		ArrayList<String> edgeIdsForSecondVertex = incidenceList.get(secondVertexId);
+		edgeIdsForSecondVertex.remove(edgeId);
+		
+		edges.remove(edgeId);
+	}
 	
 	public void listVertices()
 	{

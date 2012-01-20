@@ -45,6 +45,11 @@ public class CooperationSimulation
 		
 		graph.listVertices();
 		graph.listEdges();
+		
+		graph.removeEdge("e2");
+		
+		graph.listVertices();
+		graph.listEdges();
 	}
 	
 	public CooperationSimulation(boolean shouldUseDirectedGraph)
