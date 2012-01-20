@@ -1,9 +1,16 @@
+import java.io.FileReader;
+
+import org.xml.sax.XMLReader;
+import org.xml.sax.InputSource;
+import org.xml.sax.helpers.XMLReaderFactory;
+import org.xml.sax.helpers.DefaultHandler;
+
 public class CooperationSimulation
 {	
 	public static void main(String args[])
 	{		
-		new CooperationSimulation(true);
-		new CooperationSimulation(false);
+		//new CooperationSimulation(true);
+		//new CooperationSimulation(false);
 		new CooperationSimulation("test_graph.xml");
 	}
 	
@@ -38,7 +45,23 @@ public class CooperationSimulation
 	
 	public CooperationSimulation(String graphMLFilename)
 	{
-                System.out.println("test");
+                try{
+
+                XMLReader xr = XMLReaderFactory.createXMLReader();
+                GraphMLParser handler = new GraphMLParser();
+                xr.setContentHandler(handler);
+                xr.setErrorHandler(handler);
+
+                xr.parse(new InputSource(new FileReader(graphMLFilename)));
+                AbstractGraph graph = handler.getGraph();
+                
+                System.out.println("List of vertices");
+                graph.listVertices();
+                System.out.println("List of edges for each vertex");
+                graph.listEdges();
+                }catch(Exception e){e.printStackTrace();}
+
+        }
 		// read graphml
 		// create directed graph / undirected graph based on xml
 		// construct graph from xml
@@ -48,5 +71,5 @@ public class CooperationSimulation
 		// graph.addVertex(vertex)
 		// if read edge:
 		// graph.addEdge(vertex1 id, vertex2 id, (edge id)) (edge id is optional, recommended)
-	}
+	
 }
