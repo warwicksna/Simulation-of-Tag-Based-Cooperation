@@ -126,4 +126,22 @@ public abstract class AbstractGraph
 		AbstractVertex vertex = vertices.get(vertexId);
 		return vertex;
 	}
+	
+	public ArrayList<String> neighboursForVertex(String vertexId)
+	{
+		ArrayList<String> neighbours = new ArrayList<String>();
+		
+		ArrayList<String> edgeIdsForVertex = incidenceList.get(neighbours);
+		
+		for (String edgeId : edgeIdsForVertex)
+		{
+			AbstractEdge edge = edges.get(edgeId);
+			if (edge.firstVertexId().equals(vertexId))
+			{
+				neighbours.add(edgeId);
+			}
+		}
+		
+		return neighbours;
+	}
 }
