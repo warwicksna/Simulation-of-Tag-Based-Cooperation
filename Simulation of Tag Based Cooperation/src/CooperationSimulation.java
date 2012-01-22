@@ -9,14 +9,6 @@ public class CooperationSimulation
 {	
 	public static void main(String args[])
 	{		
-<<<<<<< HEAD
-		//new CooperationSimulation(true);
-		//new CooperationSimulation(false);
-=======
-		new CooperationSimulation();
-		new CooperationSimulation(true);
-		new CooperationSimulation(false);
->>>>>>> Added ability to remove vertices
 		new CooperationSimulation("test_graph.xml");
 	}
 	
