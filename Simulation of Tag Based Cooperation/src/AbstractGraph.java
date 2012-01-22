@@ -9,6 +9,9 @@ public abstract class AbstractGraph
 	protected Map<String, AbstractVertex> vertices = new HashMap<String, AbstractVertex>();
 	protected Map<String, AbstractEdge>   edges    = new HashMap<String, AbstractEdge>();
 	
+	// Vertex array (for accessing random vertices)
+	protected ArrayList<String> vertexList = new ArrayList<String>();
+	
 	// Incidence List
 	protected Map<String, ArrayList<String>> incidenceList = new HashMap<String, ArrayList<String>>();
 	
@@ -20,6 +23,7 @@ public abstract class AbstractGraph
 	{
 		String vertexId = vertex.vertexId();
 		vertices.put(vertexId, vertex);
+		vertexList.add(vertexId);
 		
 		incidenceList.put(vertex.vertexId(), new ArrayList<String>());		
 	}
@@ -56,6 +60,7 @@ public abstract class AbstractGraph
 		
 		// remove vertex
 		vertices.remove(vertexId);
+		vertexList.remove(vertexId);
 		
 		// remove vertex from incidence list
 		incidenceList.remove(vertexId);
@@ -111,5 +116,14 @@ public abstract class AbstractGraph
 			}
 			System.out.println("");
 		}
+	}
+	
+	public AbstractVertex randomVertex()
+	{
+		int vertexCount = vertexList.size();
+		int randomVertexIndex = RandomGenerator.getInstance().nextIntegerLessThan(vertexCount);
+		String vertexId = vertexList.get(randomVertexIndex);
+		AbstractVertex vertex = vertices.get(vertexId);
+		return vertex;
 	}
 }

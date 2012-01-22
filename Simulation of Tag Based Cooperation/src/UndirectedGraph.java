@@ -40,9 +40,6 @@ public class UndirectedGraph extends AbstractGraph
 	public void removeEdge(String vertexAId, String vertexBId)
 	{
 		// remove edge A -> B
-		// remove edge B -> A
-		
-		// remove edge A -> B
 		ArrayList<String> incidenceListForVertexA = new ArrayList<String>(incidenceList.get(vertexAId));
 		
 		for (String edgeId : incidenceListForVertexA)

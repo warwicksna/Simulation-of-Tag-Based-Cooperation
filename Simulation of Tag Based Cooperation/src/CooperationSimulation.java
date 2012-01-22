@@ -88,7 +88,12 @@ public class CooperationSimulation
 			graph.listVertices();
 			System.out.println("List of edges for each vertex");
 			graph.listEdges();
+			
+			for (int i = 0; i < 10; i++)
+			{
+				AbstractVertex randomVertex = graph.randomVertex();
+				System.out.format("random vertex %d = %s\n", i, randomVertex.vertexId());
+			}
 		} catch(Exception e) {e.printStackTrace();}
-
 	}
 }
