@@ -5,95 +5,55 @@ import org.xml.sax.InputSource;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 public class CooperationSimulation
-{	
+{
+	protected AbstractGraph graph;
+	
 	public static void main(String args[])
 	{		
 		new CooperationSimulation("test_graph.xml");
 	}
-	
-	public CooperationSimulation()
+	public CooperationSimulation(String graphMLFilename)
 	{
-		System.out.println("Testing removing vertices");
-		AbstractGraph graph = new UndirectedGraph();
-		
-		AbstractVertex n0 = new TagScoreVertex(graph, "n0", 0.5, 0.4);
-		graph.addVertex(n0);
-		
-		AbstractVertex n1 = new TagScoreVertex(graph, "n1", 0.1, 0.1);
-		graph.addVertex(n1);
-		
-		graph.addEdge("n0", "n1", "e1");
-		
-		graph.listVertices();
-		graph.listEdges();
-		
-		graph.removeVertex("n0");
-		
-		AbstractVertex n2 = new TagScoreVertex(graph, "n2", 0.9, 0.9);
-		graph.addVertex(n2);
-		
-		graph.addEdge("n1", "n2", "e2");
-		
-		graph.listVertices();
-		graph.listEdges();
-		
-		graph.removeEdge("e2");
-		
-		graph.listVertices();
-		graph.listEdges();
+		loadGraphFromFile(graphMLFilename);
+		outputGraphToConsole();
+		play(100);
 	}
 	
-	public CooperationSimulation(boolean shouldUseDirectedGraph)
+	protected void loadGraphFromFile(String graphMLFilename)
 	{
-		AbstractGraph graph;
+		GraphMLParser handler = new GraphMLParser();
 		
-		if (shouldUseDirectedGraph)
+		try
 		{
-			graph = new DirectedGraph();
-			System.out.println("Testing Directed Graphs");
+			XMLReader xr = XMLReaderFactory.createXMLReader();
+			xr.setContentHandler(handler);
+			xr.setErrorHandler(handler);
+			xr.parse(new InputSource(new FileReader(graphMLFilename)));
 		}
-		else
+		catch (Exception e)
 		{
-			graph = new UndirectedGraph();
-			System.out.println("Testing Undirected Graphs");
+			System.err.format("Could not read graph %s\n", graphMLFilename);
+			e.printStackTrace();
+			return;
 		}
 		
-		AbstractVertex newVertex1 = new TagScoreVertex(graph, "Hello", 0.5, 0.4);
-		graph.addVertex(newVertex1);
-		
-		AbstractVertex newVertex2 = new TagScoreVertex(graph, "World", 0.7, 0.2);
-		graph.addVertex(newVertex2);
-		
-		graph.addEdge(newVertex1, newVertex2, "Goodbye");
-		
+		graph = handler.getGraph();
+	}
+	
+	protected void outputGraphToConsole()
+	{
 		System.out.println("List of vertices");
 		graph.listVertices();
 		System.out.println("List of edges for each vertex");
 		graph.listEdges();
 	}
 	
-	public CooperationSimulation(String graphMLFilename)
-	{	
-		try{
-
-			XMLReader xr = XMLReaderFactory.createXMLReader();
-			GraphMLParser handler = new GraphMLParser();
-			xr.setContentHandler(handler);
-			xr.setErrorHandler(handler);
-
-			xr.parse(new InputSource(new FileReader(graphMLFilename)));
-			AbstractGraph graph = handler.getGraph();
-
-			System.out.println("List of vertices");
-			graph.listVertices();
-			System.out.println("List of edges for each vertex");
-			graph.listEdges();
-			
-			for (int i = 0; i < 10; i++)
-			{
-				AbstractVertex randomVertex = graph.randomVertex();
-				System.out.format("random vertex %d = %s\n", i, randomVertex.vertexId());
-			}
-		} catch(Exception e) {e.printStackTrace();}
+	protected void play(int stepCount)
+	{
+		for (int i = 0; i < stepCount; i++)
+		{
+			AbstractVertex randomVertex = graph.randomVertex();
+			randomVertex.step();
+		}
 	}
 }

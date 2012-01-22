@@ -23,4 +23,6 @@ public abstract class AbstractVertex
 	{
 		return vertexId;
 	}
+	
+	public abstract void step();
 }

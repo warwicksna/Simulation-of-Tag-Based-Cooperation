@@ -31,4 +31,9 @@ public class TagScoreVertex extends AbstractVertex
 	{
 		return String.format("tag = %1.5f; tolerance = %1.5f", tag, tolerance);
 	}
+	
+	public void step()
+	{
+		System.out.format("Agent %s stepping\n", vertexId);
+	}
 }
