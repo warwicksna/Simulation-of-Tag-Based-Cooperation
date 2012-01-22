@@ -74,7 +74,7 @@ public class CooperationSimulation
 	}
 	
 	public CooperationSimulation(String graphMLFilename)
-	{
+	{	
                 try{
 
                 XMLReader xr = XMLReaderFactory.createXMLReader();

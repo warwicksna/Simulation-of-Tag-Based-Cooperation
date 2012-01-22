@@ -53,6 +53,7 @@ public class DirectedGraph extends AbstractGraph
 			// remove edge
 			ArrayList<String> edgeIdsFromVertex = incidenceList.get(fromVertexId);
 			edgeIdsFromVertex.remove(edgeId);
+			edges.remove(edgeId);
 		}
 	}
 }

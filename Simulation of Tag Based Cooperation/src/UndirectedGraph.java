@@ -41,5 +41,39 @@ public class UndirectedGraph extends AbstractGraph
 	{
 		// remove edge A -> B
 		// remove edge B -> A
+		
+		// remove edge A -> B
+		ArrayList<String> incidenceListForVertexA = new ArrayList<String>(incidenceList.get(vertexAId));
+		
+		for (String edgeId : incidenceListForVertexA)
+		{
+			AbstractEdge edge = edges.get(edgeId);
+			if (!edge.secondVertexId().equals(vertexBId))
+			{
+				continue;
+			}
+			
+			// remove edge
+			ArrayList<String> edgeIdsFromVertexA = incidenceList.get(vertexAId);
+			edgeIdsFromVertexA.remove(edgeId);
+			edges.remove(edgeId);
+		}
+		
+		// remove edge B -> A
+		ArrayList<String> incidenceListForVertexB = new ArrayList<String>(incidenceList.get(vertexBId));
+		
+		for (String edgeId : incidenceListForVertexB)
+		{
+			AbstractEdge edge = edges.get(edgeId);
+			if (!edge.firstVertexId().equals(vertexAId))
+			{
+				continue;
+			}
+			
+			// remove edge
+			ArrayList<String> edgeIdsFromVertexB = incidenceList.get(vertexBId);
+			edgeIdsFromVertexB.remove(edgeId);
+			edges.remove(edgeId);
+		}
 	}
 }
