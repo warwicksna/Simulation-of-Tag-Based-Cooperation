@@ -3,7 +3,6 @@ import java.io.FileReader;
 import org.xml.sax.XMLReader;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.XMLReaderFactory;
-import org.xml.sax.helpers.DefaultHandler;
 
 public class CooperationSimulation
 {	
@@ -75,31 +74,21 @@ public class CooperationSimulation
 	
 	public CooperationSimulation(String graphMLFilename)
 	{	
-                try{
+		try{
 
-                XMLReader xr = XMLReaderFactory.createXMLReader();
-                GraphMLParser handler = new GraphMLParser();
-                xr.setContentHandler(handler);
-                xr.setErrorHandler(handler);
+			XMLReader xr = XMLReaderFactory.createXMLReader();
+			GraphMLParser handler = new GraphMLParser();
+			xr.setContentHandler(handler);
+			xr.setErrorHandler(handler);
 
-                xr.parse(new InputSource(new FileReader(graphMLFilename)));
-                AbstractGraph graph = handler.getGraph();
-                
-                System.out.println("List of vertices");
-                graph.listVertices();
-                System.out.println("List of edges for each vertex");
-                graph.listEdges();
-                }catch(Exception e){e.printStackTrace();}
+			xr.parse(new InputSource(new FileReader(graphMLFilename)));
+			AbstractGraph graph = handler.getGraph();
 
-        }
-		// read graphml
-		// create directed graph / undirected graph based on xml
-		// construct graph from xml
-		
-		// if read vertex:
-		// vertex = new TagScoreVertex(graph, (vertex id), tag, tolerance) (vertex id is optional, recommended)
-		// graph.addVertex(vertex)
-		// if read edge:
-		// graph.addEdge(vertex1 id, vertex2 id, (edge id)) (edge id is optional, recommended)
-	
+			System.out.println("List of vertices");
+			graph.listVertices();
+			System.out.println("List of edges for each vertex");
+			graph.listEdges();
+		} catch(Exception e) {e.printStackTrace();}
+
+	}
 }
