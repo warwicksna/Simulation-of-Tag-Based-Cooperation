@@ -36,4 +36,23 @@ public class DirectedGraph extends AbstractGraph
 		incidenceListForVertex = incidenceList.get(toVertexId);
 		incidenceListForVertex.add(edge.edgeId());
 	}
+	
+	public void removeEdge(String fromVertexId, String toVertexId)
+	{
+		// remove edge From -> To
+		ArrayList<String> incidenceListForVertex = new ArrayList<String>(incidenceList.get(fromVertexId));
+		
+		for (String edgeId : incidenceListForVertex)
+		{
+			AbstractEdge edge = edges.get(edgeId);
+			if (!edge.secondVertexId().equals(toVertexId))
+			{
+				continue;
+			}
+			
+			// remove edge
+			ArrayList<String> edgeIdsFromVertex = incidenceList.get(fromVertexId);
+			edgeIdsFromVertex.remove(edgeId);
+		}
+	}
 }

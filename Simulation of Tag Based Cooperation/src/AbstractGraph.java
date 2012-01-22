@@ -61,8 +61,16 @@ public abstract class AbstractGraph
 		incidenceList.remove(vertexId);
 	}
 	
-//	public abstract void removeEdge(AbstractVertex vertexA, AbstractVertex vertexB);
-//	public abstract void removeEdge(String vertexAId, String vertexBId);
+	public void removeEdge(AbstractVertex vertexA, AbstractVertex vertexB)
+	{
+		String vertexAId = vertexA.vertexId();
+		String vertexBId = vertexB.vertexId();
+		
+		removeEdge(vertexAId, vertexBId);
+	}
+	
+	public abstract void removeEdge(String vertexAId, String vertexBId);
+	
 	public void removeEdge(AbstractEdge edge)
 	{
 		String edgeId = edge.edgeId();
