@@ -35,5 +35,26 @@ public class TagScoreVertex extends AbstractVertex
 	public void step()
 	{
 		System.out.format("Agent %s stepping\n", vertexId);
+		donate();
+		learn();
+	}
+	
+	protected void donate()
+	{
+		// get list of neighbours
+		// keep only the neighbours within tolerance value
+		// donate to neighbours
+		// update all neighbours with the donation responses
+	}
+	
+	protected void learn()
+	{
+		// get random number
+		// if random number <= threshold, return
+		// pick another agent at random
+		// compare if it is more successful than the current agent
+		// if the current agent is less successful, return
+		// learn from the more successful agent
+		// rewire the agent's neighbourhood
 	}
 }
