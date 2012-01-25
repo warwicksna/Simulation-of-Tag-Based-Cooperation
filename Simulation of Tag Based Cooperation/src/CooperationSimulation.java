@@ -17,6 +17,7 @@ public class CooperationSimulation
 		loadGraphFromFile(graphMLFilename);
 		outputGraphToConsole();
 		play(100);
+		graph.listScores();
 	}
 	
 	protected void loadGraphFromFile(String graphMLFilename)

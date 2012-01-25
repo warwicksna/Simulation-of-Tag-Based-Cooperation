@@ -118,6 +118,14 @@ public abstract class AbstractGraph
 		}
 	}
 	
+	public void listScores()
+	{
+		for (Map.Entry<String, AbstractVertex> vertex : vertices.entrySet())
+		{
+			System.out.format("%s: %f\n", vertex.getKey(), ((TagScoreVertex)vertex.getValue()).score());
+		}
+	}
+	
 	public AbstractVertex randomVertex()
 	{
 		int vertexCount = vertexList.size();
@@ -127,19 +135,33 @@ public abstract class AbstractGraph
 		return vertex;
 	}
 	
-	public ArrayList<String> neighboursForVertex(String vertexId)
+	public ArrayList<String> neighbourIdsForVertex(String vertexId)
 	{
 		ArrayList<String> neighbours = new ArrayList<String>();
 		
-		ArrayList<String> edgeIdsForVertex = incidenceList.get(neighbours);
+		ArrayList<String> edgeIdsForVertex = incidenceList.get(vertexId);
 		
 		for (String edgeId : edgeIdsForVertex)
 		{
 			AbstractEdge edge = edges.get(edgeId);
 			if (edge.firstVertexId().equals(vertexId))
 			{
-				neighbours.add(edgeId);
+				neighbours.add(edge.secondVertexId());
 			}
+		}
+		
+		return neighbours;
+	}
+	
+	public ArrayList<AbstractVertex> neighboursForVertex(String vertexId)
+	{
+		ArrayList<String> neighbourIds = neighbourIdsForVertex(vertexId);
+		ArrayList<AbstractVertex> neighbours = new ArrayList<AbstractVertex>();
+		
+		for (String neighbourId : neighbourIds)
+		{
+			AbstractVertex neighbour = vertices.get(neighbourId);
+			neighbours.add(neighbour);
 		}
 		
 		return neighbours;
