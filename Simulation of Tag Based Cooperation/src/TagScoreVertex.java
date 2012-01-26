@@ -1,10 +1,13 @@
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class TagScoreVertex extends AbstractVertex
 {
 	protected double tag;
 	protected double tolerance;
 	protected double score;
+	protected Map<String, ObservationQueue> observations = new HashMap<String, ObservationQueue>();
 	
 	public TagScoreVertex(AbstractGraph graph, double tag, double tolerance)
 	{
@@ -63,14 +66,17 @@ public class TagScoreVertex extends AbstractVertex
 		
 		for (AbstractVertex neighbour : neighbours)
 		{
-			((TagScoreVertex) neighbour).observeDonation(vertexId, didDonate);
+			((TagScoreVertex) neighbour).neighbourDidDonate(vertexId, didDonate);
 		}
 	}
 	
-	public void observeDonation(String neighbourId, boolean didDonate)
+	public void neighbourDidDonate(String neighbourId, boolean didDonate)
 	{
 		// get observation queue based on neighbour id
+		ObservationQueue neighbourObservations = observations.get(neighbourId);
+		
 		// add to ((Boolean) didDonate) to observation queue
+		neighbourObservations.observe(didDonate);
 	}
 	
 	protected ArrayList<TagScoreVertex> neighboursWithinTolerance(ArrayList<AbstractVertex> neighbours)
@@ -137,5 +143,17 @@ public class TagScoreVertex extends AbstractVertex
 		
 		// rewire the agent's neighbourhood
 		//     rewire()
+	}
+	
+	public void neighbourWasAdded(String neighbourId)
+	{
+		// add an observation queue for neighbour
+		observations.put(neighbourId, new ObservationQueue());
+	}
+	
+	public void neighbourWasRemoved(String neighbourId)
+	{
+		// remove the observation queue for neighbour
+		observations.remove(neighbourId);
 	}
 }

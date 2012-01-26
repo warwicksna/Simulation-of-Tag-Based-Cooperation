@@ -12,6 +12,12 @@ public class ObservationQueue
 		rank = 0;
 	}
 	
+	public ObservationQueue() {
+		// TODO Auto-generated constructor stub
+		maxSize = 100000;
+		rank = 0;
+	}
+
 	public void observe(boolean didDonate)
 	{
 		if (observations.size() >= maxSize)
