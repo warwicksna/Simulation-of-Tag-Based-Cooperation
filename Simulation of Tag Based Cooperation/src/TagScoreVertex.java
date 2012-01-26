@@ -59,6 +59,18 @@ public class TagScoreVertex extends AbstractVertex
 		donateToNeighbours(neighboursWithinTolerance);
 		
 		// update all neighbours with the donation responses
+		boolean didDonate = neighboursWithinTolerance.size() > 0;
+		
+		for (AbstractVertex neighbour : neighbours)
+		{
+			((TagScoreVertex) neighbour).observeDonation(vertexId, didDonate);
+		}
+	}
+	
+	public void observeDonation(String neighbourId, boolean didDonate)
+	{
+		// get observation queue based on neighbour id
+		// add to ((Boolean) didDonate) to observation queue
 	}
 	
 	protected ArrayList<TagScoreVertex> neighboursWithinTolerance(ArrayList<AbstractVertex> neighbours)

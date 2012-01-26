@@ -25,9 +25,12 @@ public class RandomGenerator {
 		return rng.nextInt(maxValue);
 	}
 	
+	
 	public boolean booleanWithProbability(double probability)
 	{
 		return rng.nextDouble() < probability;
 	}
+	
+	
 	
 }
