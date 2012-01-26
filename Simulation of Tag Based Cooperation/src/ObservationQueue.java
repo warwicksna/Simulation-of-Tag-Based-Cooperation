@@ -58,4 +58,26 @@ public class ObservationQueue
 	{
 		return observations.size();
 	}
+	
+	public double contextAssessment()
+	{
+		double contextAssessment = 0;
+		
+		if (observations.size() == 0)
+		{
+			return contextAssessment;
+		}
+		
+		for (Boolean observation : observations)
+		{
+			if (observation.booleanValue())
+			{
+				contextAssessment++;
+			}
+		}
+		
+		contextAssessment /= observations.size();
+		
+		return contextAssessment;
+	}
 }

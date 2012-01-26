@@ -83,17 +83,39 @@ public class TagScoreVertex extends AbstractVertex
 	{
 		ArrayList<TagScoreVertex> neighboursWithinTolerance = new ArrayList<TagScoreVertex>();
 		
+		double contextInfluence = 0.1;
+		double contextAssessment = neighbourhoodAssessment();
+		
 		for (AbstractVertex neighbour : neighbours)
 		{
 			TagScoreVertex neighbourAsTSV = (TagScoreVertex) neighbour;
 			
-			if (neighbourAsTSV.isWithinTolerance(tag, tolerance))
+			if (shouldDonateToNeighbour(neighbourAsTSV, contextInfluence, contextAssessment))
 			{
 				neighboursWithinTolerance.add(neighbourAsTSV);
 			}
+			
+//			if (neighbourAsTSV.isWithinTolerance(tag, tolerance))
+//			{
+//				neighboursWithinTolerance.add(neighbourAsTSV);
+//			}
 		}
 		
 		return neighboursWithinTolerance;
+	}
+	
+	// | \tau_A - \tau_B | <= (1 - \gamma).T_A + \gamma.C_A
+	// \tau_A = A.tag
+	// \tau_B = B.tag
+	// \gamma = context influence
+	// T_A = A.tolerance
+	// C_A = context assessment
+	protected boolean shouldDonateToNeighbour(TagScoreVertex neighbour, double contextInfluence, double contextAssessment)
+	{
+		double difference = Math.abs(tag - neighbour.tag());
+		double minDifference = ((1 - contextInfluence) * tolerance) + (contextInfluence * contextAssessment);
+		
+		return difference < minDifference;
 	}
 	
 	public boolean isWithinTolerance(double otherTag, double otherTolerance)
@@ -143,6 +165,25 @@ public class TagScoreVertex extends AbstractVertex
 		
 		// rewire the agent's neighbourhood
 		//     rewire()
+	}
+	
+	protected double neighbourhoodAssessment()
+	{
+		double neighbourhoodAssessment = 0;
+		
+		if (observations.size() == 0)
+		{
+			return neighbourhoodAssessment;
+		}
+		
+		for (Map.Entry<String, ObservationQueue> neighbourObservation : observations.entrySet())
+		{
+			neighbourhoodAssessment += neighbourObservation.getValue().contextAssessment();
+		}
+		
+		neighbourhoodAssessment /= observations.size();
+		
+		return neighbourhoodAssessment;
 	}
 	
 	public double[] tagAndToleranceWithChanceOfMutation(double mutationProbability)
