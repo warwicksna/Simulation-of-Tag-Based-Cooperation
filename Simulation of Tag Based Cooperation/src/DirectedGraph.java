@@ -45,10 +45,11 @@ public class DirectedGraph extends AbstractGraph
 	{
 		// remove edge From -> To
 		ArrayList<String> incidenceListForVertex = new ArrayList<String>(incidenceList.get(fromVertexId));
+		AbstractEdge edge = null;
 		
 		for (String edgeId : incidenceListForVertex)
 		{
-			AbstractEdge edge = edges.get(edgeId);
+			edge = edges.get(edgeId);
 			if (!edge.secondVertexId().equals(toVertexId))
 			{
 				continue;
@@ -58,6 +59,12 @@ public class DirectedGraph extends AbstractGraph
 			ArrayList<String> edgeIdsFromVertex = incidenceList.get(fromVertexId);
 			edgeIdsFromVertex.remove(edgeId);
 			edges.remove(edgeId);
+		}
+		
+		// Also remove edge From -> To in toVertex's incidence list
+		if (edge != null)
+		{
+			incidenceList.get(toVertexId).remove(edge.edgeId());
 		}
 		
 		// notify fromVertex that its neighbourhood has been reduced
