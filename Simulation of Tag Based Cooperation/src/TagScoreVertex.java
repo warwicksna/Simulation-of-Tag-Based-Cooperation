@@ -130,19 +130,60 @@ public class TagScoreVertex extends AbstractVertex
 		// pick another agent at random
 		TagScoreVertex randomAgent = (TagScoreVertex) graph.get().randomVertex();
 		
-		// compare if it is more successful than the current agent
-		// if (randomAgent.score() <= score)
-		
-		// if the current agent is less successful, return
-		//     return
+		// if current agent is more successful than the random agent, return
+		if (randomAgent.score() <= score)
+		{
+			return;
+		}
 		
 		// learn from the more successful agent (with chance of mutation)
-		//     randomAgent.tagAndToleranceWithChanceOfMutation
-		//     tag = result.get(tag)
-		//     tolerance = result.get(tolerance)
+		double[] newTagAndTolerance = tagAndToleranceWithChanceOfMutation(0.1);
+		tag = newTagAndTolerance[0];
+		tolerance = newTagAndTolerance[1];
 		
 		// rewire the agent's neighbourhood
 		//     rewire()
+	}
+	
+	public double[] tagAndToleranceWithChanceOfMutation(double mutationProbability)
+	{
+		double[] tagAndTolerance = new double[2];
+		tagAndTolerance[0] = tag;
+		tagAndTolerance[1] = tolerance;
+		
+		// should we mutate the tag?
+		if (RandomGenerator.getInstance().booleanWithProbability(mutationProbability))
+		{
+			// mutate tag by generating a new tag
+			tagAndTolerance[0] = RandomGenerator.getInstance().nextDouble();
+			System.out.println("mutated tag from " + tag + " to " + tagAndTolerance[0]);
+		}
+		
+		// should we mutate the tolerance
+		if (RandomGenerator.getInstance().booleanWithProbability(mutationProbability))
+		{
+			// mutate tolerance by adding gaussian noise with 0 mean, and small stddev
+			double standardDeviation = 0.05;
+			double toleranceDelta = RandomGenerator.getInstance().nextGaussian();
+			toleranceDelta *= standardDeviation;
+			
+			tagAndTolerance[1] += toleranceDelta;
+			
+			// clamp tolerance value to range [0, 1]
+			if (tagAndTolerance[1] < 0)
+			{
+				tagAndTolerance[1] = 0;
+			}
+			
+			if (tagAndTolerance[1] > 1)
+			{
+				tagAndTolerance[1] = 1;
+			}
+			
+			System.out.println("mutated tolerance from " + tolerance + " to " + tagAndTolerance[1]);
+		}
+		
+		return tagAndTolerance;
 	}
 	
 	public void neighbourWasAdded(String neighbourId)
