@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 public class TagScoreVertex extends AbstractVertex
 {
+	protected static double global_DonationCount = 0;
+	protected static double global_PossibleDonationCount = 0;
+	
 	protected double tag;
 	protected double tolerance;
 	protected double score;
@@ -90,9 +93,11 @@ public class TagScoreVertex extends AbstractVertex
 		{
 			TagScoreVertex neighbourAsTSV = (TagScoreVertex) neighbour;
 			
+			global_PossibleDonationCount++;
 			if (shouldDonateToNeighbour(neighbourAsTSV, contextInfluence, contextAssessment))
 			{
 				neighboursWithinTolerance.add(neighbourAsTSV);
+				global_DonationCount++;
 			}
 			
 //			if (neighbourAsTSV.isWithinTolerance(tag, tolerance))
