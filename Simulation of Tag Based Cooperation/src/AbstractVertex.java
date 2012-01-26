@@ -25,4 +25,14 @@ public abstract class AbstractVertex
 	}
 	
 	public abstract void step();
+	
+	public void neighbourWasAdded(String neighbourId)
+	{
+		
+	}
+	
+	public void neighbourWasRemoved(String neighbourId)
+	{
+		
+	}
 }

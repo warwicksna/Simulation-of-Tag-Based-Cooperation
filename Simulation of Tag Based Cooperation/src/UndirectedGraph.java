@@ -35,6 +35,13 @@ public class UndirectedGraph extends AbstractGraph
 		
 		incidenceListForVertex = incidenceList.get(vertexBId);
 		incidenceListForVertex.add(edge.edgeId());
+		
+		// notify vertices that their neighbourhoods have expanded
+		AbstractVertex vertexA = vertices.get(vertexAId);
+		vertexA.neighbourWasAdded(vertexBId);
+		
+		AbstractVertex vertexB = vertices.get(vertexBId);
+		vertexB.neighbourWasAdded(vertexAId);
 	}
 	
 	public void removeEdge(String vertexAId, String vertexBId)
@@ -56,6 +63,10 @@ public class UndirectedGraph extends AbstractGraph
 			edges.remove(edgeId);
 		}
 		
+		// notify vertexA that its neighbourhood has been reduced
+		AbstractVertex vertexA = vertices.get(vertexAId);
+		vertexA.neighbourWasRemoved(vertexBId);
+		
 		// remove edge B -> A
 		ArrayList<String> incidenceListForVertexB = new ArrayList<String>(incidenceList.get(vertexBId));
 		
@@ -72,5 +83,9 @@ public class UndirectedGraph extends AbstractGraph
 			edgeIdsFromVertexB.remove(edgeId);
 			edges.remove(edgeId);
 		}
+		
+		// notify vertexB that its neighbourhood has been reduced
+		AbstractVertex vertexB = vertices.get(vertexBId);
+		vertexB.neighbourWasRemoved(vertexAId);
 	}
 }

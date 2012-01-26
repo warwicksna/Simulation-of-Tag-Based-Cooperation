@@ -35,6 +35,10 @@ public class DirectedGraph extends AbstractGraph
 		
 		incidenceListForVertex = incidenceList.get(toVertexId);
 		incidenceListForVertex.add(edge.edgeId());
+		
+		// notify vertex that a neighbour was added
+		AbstractVertex fromVertex = vertices.get(fromVertexId);
+		fromVertex.neighbourWasAdded(toVertexId);
 	}
 	
 	public void removeEdge(String fromVertexId, String toVertexId)
@@ -55,5 +59,9 @@ public class DirectedGraph extends AbstractGraph
 			edgeIdsFromVertex.remove(edgeId);
 			edges.remove(edgeId);
 		}
+		
+		// notify fromVertex that its neighbourhood has been reduced
+		AbstractVertex fromVertex = vertices.get(fromVertexId);
+		fromVertex.neighbourWasRemoved(toVertexId);
 	}
 }
