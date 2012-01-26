@@ -27,7 +27,7 @@ public class RandomGenerator {
 	
 	public boolean booleanWithProbability(double probability)
 	{
-		return rng.nextDouble() < probability;
+		return (probability > 0) ? rng.nextDouble() <= probability : false;
 	}
 	
 	public double nextDouble()
