@@ -302,6 +302,13 @@ public class TagScoreVertex extends AbstractVertex
 		// add the best neighbour of each of the best \lambda neighbours
 	}
 	
+	public TagScoreVertex bestNeighbour()
+	{		
+		List<AbstractVertex> bestNeighbourList = bestNeighbours(1);
+		
+		return (TagScoreVertex)bestNeighbourList.get(0);
+	}
+	
 	public List<AbstractVertex> bestNeighbours(int count)
 	{
 		ArrayList<AbstractVertex> rankedNeighbours = rankNeighbours();
