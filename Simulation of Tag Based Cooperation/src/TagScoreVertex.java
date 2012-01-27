@@ -292,6 +292,8 @@ public class TagScoreVertex extends AbstractVertex
 		removeWorstNeighbours(lambda);
 		
 		// add the best \lambda neighbours from the best neighbour
+		TagScoreVertex bestNeighbour = bestNeighbour();
+		List<AbstractVertex> neighboursToAdd = bestNeighbour.bestNeighbours(lambda);
 	}
 	
 	protected void groupReplaceWorseRewire(int lambda)
@@ -316,6 +318,11 @@ public class TagScoreVertex extends AbstractVertex
 		List<AbstractVertex> bestNeighbours = rankedNeighbours.subList(rankedNeighbours.size() - count, rankedNeighbours.size());
 		
 		return bestNeighbours;
+	}
+	
+	public List<AbstractVertex> bestNeighboursExcluding(int count, ArrayList<AbstractVertex> exclude)
+	{
+		return null;
 	}
 	
 	protected double neighbourhoodAssessment()
