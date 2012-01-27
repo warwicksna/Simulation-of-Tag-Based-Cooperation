@@ -169,7 +169,37 @@ public class TagScoreVertex extends AbstractVertex
 		tolerance = newTagAndTolerance[1];
 		
 		// rewire the agent's neighbourhood
-		//     rewire()
+		rewire();
+	}
+	
+	protected void rewire()
+	{
+		int lambda = 2;
+		randomRewire(lambda);
+	}
+	
+	protected void randomRewire(int lambda)
+	{
+		// remove \lambda neighbours at random
+		// add \lambda neighbours at random
+	}
+	
+	protected void randomReplaceWorstRewire()
+	{
+		// remove \lambda worst neighbours
+		// add \lambda neighbours at random
+	}
+	
+	protected void individualReplaceWorstRewire()
+	{
+		// remove \lambda worst neighbours
+		// add the best \lambda neighbours from the best neighbour
+	}
+	
+	protected void groupReplaceWorseRewire()
+	{
+		// remove \lambda worst neighbours
+		// add the best neighbour of each of the best \lambda neighbours
 	}
 	
 	protected double neighbourhoodAssessment()
