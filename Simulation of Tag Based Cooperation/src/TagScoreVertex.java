@@ -184,6 +184,7 @@ public class TagScoreVertex extends AbstractVertex
 		removeNeighboursAtRandom(lambda);
 		
 		// add \lambda neighbours at random
+		addNeighboursAtRandom(lambda);
 	}
 	
 	protected void removeNeighboursAtRandom(int count)
@@ -205,19 +206,53 @@ public class TagScoreVertex extends AbstractVertex
 		}
 	}
 	
-	protected void randomReplaceWorstRewire()
+	protected void addNeighboursAtRandom(int count)
+	{
+		// get all neighbours (to prevent duplicate neighbours)
+		ArrayList<AbstractVertex> neighbours = graph.get().neighboursForVertex(vertexId);
+		
+		// TODO: check that there are enough agents in the graph
+		
+		int neighboursAdded = 0;
+		
+		// while neighbours added < count
+		// get a random vertex and attempt to add it as a neighbour
+		while (neighboursAdded < count)
+		{
+			AbstractVertex randomAgent = graph.get().randomVertex();
+
+			// we can't have an edge to ourselves
+			if (vertexId.equals(randomAgent.vertexId()))
+			{
+				continue;
+			}
+			
+			// we can't have duplicate edges
+			if (neighbours.contains(randomAgent))
+			{
+				continue;
+			}
+			
+			// add neighbour
+			graph.get().addEdge(this, randomAgent);
+			neighboursAdded++;
+		}
+	}
+	
+	protected void randomReplaceWorstRewire(int lambda)
 	{
 		// remove \lambda worst neighbours
 		// add \lambda neighbours at random
+		addNeighboursAtRandom(lambda);
 	}
 	
-	protected void individualReplaceWorstRewire()
+	protected void individualReplaceWorstRewire(int lambda)
 	{
 		// remove \lambda worst neighbours
 		// add the best \lambda neighbours from the best neighbour
 	}
 	
-	protected void groupReplaceWorseRewire()
+	protected void groupReplaceWorseRewire(int lambda)
 	{
 		// remove \lambda worst neighbours
 		// add the best neighbour of each of the best \lambda neighbours
