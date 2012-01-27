@@ -181,7 +181,28 @@ public class TagScoreVertex extends AbstractVertex
 	protected void randomRewire(int lambda)
 	{
 		// remove \lambda neighbours at random
+		removeNeighboursAtRandom(lambda);
+		
 		// add \lambda neighbours at random
+	}
+	
+	protected void removeNeighboursAtRandom(int count)
+	{
+		// get all neighbours
+		ArrayList<AbstractVertex> neighbours = new ArrayList<AbstractVertex>(graph.get().neighboursForVertex(vertexId));
+		
+		// remove neighbours from list so that number of size <= count
+		while (neighbours.size() > count)
+		{
+			int indexOfNeighbourToRemove = RandomGenerator.getInstance().nextIntegerLessThan(neighbours.size());
+			neighbours.remove(indexOfNeighbourToRemove);
+		}
+		
+		// remove edges to neighbours
+		for (AbstractVertex neighbour : neighbours)
+		{
+			graph.get().removeEdge(this, neighbour);
+		}
 	}
 	
 	protected void randomReplaceWorstRewire()
