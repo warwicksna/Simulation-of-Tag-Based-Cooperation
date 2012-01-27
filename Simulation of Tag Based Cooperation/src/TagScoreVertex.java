@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -242,19 +245,61 @@ public class TagScoreVertex extends AbstractVertex
 	protected void randomReplaceWorstRewire(int lambda)
 	{
 		// remove \lambda worst neighbours
+		removeWorstNeighbours(lambda);
+		
 		// add \lambda neighbours at random
 		addNeighboursAtRandom(lambda);
 	}
 	
+	protected void removeWorstNeighbours(int count)
+	{
+		ArrayList<AbstractVertex> rankedNeighbours = rankNeighbours();
+		
+		List<AbstractVertex> worstNeighbours = rankedNeighbours.subList(0, count);
+		
+		for (AbstractVertex neighbour : worstNeighbours)
+		{
+			graph.get().removeEdge(this, neighbour);
+		}
+	}
+	
+	protected ArrayList<AbstractVertex> rankNeighbours()
+	{
+		// get neighbours
+		ArrayList<AbstractVertex> neighbours = new ArrayList<AbstractVertex>(graph.get().neighboursForVertex(vertexId));
+		
+		// order neighbours by rank
+		Collections.sort(neighbours, new RankComparator());
+		
+		return neighbours;
+	}
+	
+	protected class RankComparator implements Comparator<AbstractVertex>
+	{
+		public int compare(AbstractVertex a, AbstractVertex b)
+		{
+			int objectARank = observations.get(a.vertexId()).getRank();
+			int objectBRank = observations.get(b.vertexId()).getRank();
+			
+			int delta = objectARank - objectBRank;
+			return delta;
+		}
+	}
+	
+	
 	protected void individualReplaceWorstRewire(int lambda)
 	{
 		// remove \lambda worst neighbours
+		removeWorstNeighbours(lambda);
+		
 		// add the best \lambda neighbours from the best neighbour
 	}
 	
 	protected void groupReplaceWorseRewire(int lambda)
 	{
 		// remove \lambda worst neighbours
+		removeWorstNeighbours(lambda);
+		
 		// add the best neighbour of each of the best \lambda neighbours
 	}
 	
