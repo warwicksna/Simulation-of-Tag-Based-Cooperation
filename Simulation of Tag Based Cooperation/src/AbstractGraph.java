@@ -26,6 +26,7 @@ public abstract class AbstractGraph
 		vertexList.add(vertexId);
 		
 		incidenceList.put(vertex.vertexId(), new ArrayList<String>());		
+        System.out.println("Adding vertex " + vertex.vertexId());
 	}
 	
 	public abstract void addEdge(AbstractVertex vertexA, AbstractVertex vertexB);

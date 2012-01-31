@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<graphml xmlns="http://graphml.graphdrawing.org/xmlns"  
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
-     http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-  <graph id="G" edgedefault="undirected">
-    <node id="n0"/>
-    <node id="n1"/>
-    <edge id="e1" source="n0" target="n1"/>
-  </graph>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml">
+<graph edgedefault="directed">
+<node id="8"/>
+<node id="12"/>
+<node id="11"/>
+<node id="9"/>
+<node id="5"/>
+<node id="18"/>
+<node id="13"/>
+<node id="7"/>
+<node id="19"/>
+<node id="14"/>
+<node id="10"/>
+<node id="15"/>
+<node id="16"/>
+<node id="6"/>
+<node id="17"/>
+<edge directed="false" source="18" target="17"/>
+<edge directed="false" source="15" target="17"/>
+<edge directed="false" source="16" target="8"/>
+<edge directed="false" source="8" target="15"/>
+<edge directed="false" source="18" target="16"/>
+<edge directed="false" source="16" target="15"/>
+<edge directed="false" source="14" target="19"/>
+<edge directed="false" source="8" target="17"/>
+<edge directed="false" source="5" target="15"/>
+<edge directed="false" source="9" target="19"/>
+</graph>
 </graphml>

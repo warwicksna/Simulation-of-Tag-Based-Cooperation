@@ -22,11 +22,11 @@ public abstract class AbstractEdge
 			this.edgeId = edgeId;
 			return;
 		}
-		
-		edgeId = String.format("%5d", nextEdgeId);
+
+		this.edgeId = String.format("%5d", nextEdgeId);
 		nextEdgeId++;
 	}
-	
+
 	public String edgeId()
 	{
 		return edgeId;

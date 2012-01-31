@@ -17,7 +17,14 @@ public class GraphMLParser extends DefaultHandler {
             graph.addVertex(newVertex);
         }
         else if("edge".equals(name)){
-            graph.addEdge(atts.getValue("source"), atts.getValue("target"), atts.getValue("id"));
+            if (atts.getValue("id") != null)
+            {
+                graph.addEdge(atts.getValue("source"), atts.getValue("target"), atts.getValue("id"));
+            }
+            else
+            {
+                graph.addEdge(atts.getValue("source"), atts.getValue("target"));
+            }
         }
         else if("graph".equals(name)){
             if("directed".equals(atts.getValue("edgedefault"))){

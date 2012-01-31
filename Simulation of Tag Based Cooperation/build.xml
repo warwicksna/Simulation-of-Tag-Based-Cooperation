@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<project name="CooperationSimulation" default="all" basedir=".">
+	<property name="src"   value="src"/>
+	<property name="build" value="bin"/>
+	<property name="lib"   value="lib"/>
+	
+	<target name="all" depends="CooperationSimulation" description="Build all">
+		<echo>Doing all</echo>
+	</target>
+	
+	<target name="CooperationSimulation" description="Build Cooperation Simulation">
+		<echo>Doing Cooperation Simulation</echo>
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="false" />
+		<copy file="${src}/test_graph.xml" tofile="${build}/test_graph.xml"/>
+	</target>
+</project>
