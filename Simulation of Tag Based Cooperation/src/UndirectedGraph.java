@@ -61,6 +61,8 @@ public class UndirectedGraph extends AbstractGraph
 			ArrayList<String> edgeIdsFromVertexA = incidenceList.get(vertexAId);
 			edgeIdsFromVertexA.remove(edgeId);
 			edges.remove(edgeId);
+
+            break;
 		}
 		
 		// notify vertexA that its neighbourhood has been reduced

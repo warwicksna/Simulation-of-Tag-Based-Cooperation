@@ -176,7 +176,7 @@ public class TagScoreVertex extends AbstractVertex
 		tolerance = newTagAndTolerance[1];
 		
 		// rewire the agent's neighbourhood
-		//rewire();
+        rewire();
 	}
 	
 	protected void rewire()
@@ -397,7 +397,6 @@ public class TagScoreVertex extends AbstractVertex
 	
 	public void neighbourWasRemoved(String neighbourId)
 	{
-        System.out.println("neighbour " + neighbourId + " was removed from " + vertexId + ", removing observation queue");
 		// remove the observation queue for neighbour
 		observations.remove(neighbourId);
 	}
