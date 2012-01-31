@@ -26,7 +26,6 @@ public abstract class AbstractGraph
 		vertexList.add(vertexId);
 		
 		incidenceList.put(vertex.vertexId(), new ArrayList<String>());		
-        System.out.println("Adding vertex " + vertex.vertexId());
 	}
 	
 	public abstract void addEdge(AbstractVertex vertexA, AbstractVertex vertexB);
@@ -167,4 +166,36 @@ public abstract class AbstractGraph
 		
 		return neighbours;
 	}
+
+    public ArrayList<String> observerIdsForVertex(String vertexId)
+    {
+        ArrayList<String> observers = new ArrayList<String>();
+
+        ArrayList<String> edgeIdsForVertex = incidenceList.get(vertexId);
+
+        for (String edgeId : edgeIdsForVertex)
+        {
+            AbstractEdge edge = edges.get(edgeId);
+            if (edge.secondVertexId().equals(vertexId))
+            {
+                observers.add(edge.firstVertexId());
+            }
+        }
+
+        return observers;
+    }
+
+    public ArrayList<AbstractVertex> observersForVertex(String vertexId)
+    {
+        ArrayList<String> observerIds = observerIdsForVertex(vertexId);
+        ArrayList<AbstractVertex> observers = new ArrayList<AbstractVertex>();
+
+        for (String observerId : observerIds)
+        {
+            AbstractVertex observer = vertices.get(observerId);
+            observers.add(observer);
+        }
+
+        return observers;
+    }
 }

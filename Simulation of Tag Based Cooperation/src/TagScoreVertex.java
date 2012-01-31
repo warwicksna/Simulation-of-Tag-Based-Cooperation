@@ -60,7 +60,7 @@ public class TagScoreVertex extends AbstractVertex
 	{
 		// get list of neighbours
 		ArrayList<AbstractVertex> neighbours = graph.get().neighboursForVertex(vertexId);
-		
+
 		// keep only the neighbours within tolerance value
 		ArrayList<TagScoreVertex> neighboursWithinTolerance = neighboursWithinTolerance(neighbours);
 		
@@ -69,11 +69,15 @@ public class TagScoreVertex extends AbstractVertex
 		
 		// update all neighbours with the donation responses
 		boolean didDonate = neighboursWithinTolerance.size() > 0;
+
+        // get list of observers
+        ArrayList<AbstractVertex> observers = graph.get().observersForVertex(vertexId);
+
+        for (AbstractVertex observer : observers)
+        {
+            ((TagScoreVertex) observer).neighbourDidDonate(vertexId, didDonate);
+        }
 		
-		for (AbstractVertex neighbour : neighbours)
-		{
-			((TagScoreVertex) neighbour).neighbourDidDonate(vertexId, didDonate);
-		}
 	}
 	
 	public void neighbourDidDonate(String neighbourId, boolean didDonate)
@@ -172,7 +176,7 @@ public class TagScoreVertex extends AbstractVertex
 		tolerance = newTagAndTolerance[1];
 		
 		// rewire the agent's neighbourhood
-		rewire();
+		//rewire();
 	}
 	
 	protected void rewire()
@@ -393,6 +397,7 @@ public class TagScoreVertex extends AbstractVertex
 	
 	public void neighbourWasRemoved(String neighbourId)
 	{
+        System.out.println("neighbour " + neighbourId + " was removed from " + vertexId + ", removing observation queue");
 		// remove the observation queue for neighbour
 		observations.remove(neighbourId);
 	}
