@@ -85,6 +85,16 @@ public class Job
         populationSize = size;
     }
 
+    public int iterationCount()
+    {
+        return iterationCount;
+    }
+
+    public void setIterationCount(int iterations)
+    {
+        iterationCount = iterations;
+    }
+
     public static String rewireStrategyAsString(RewireStrategy strategy)
     {
         switch (strategy)
