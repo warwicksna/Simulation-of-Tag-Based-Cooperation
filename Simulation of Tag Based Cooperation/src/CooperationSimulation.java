@@ -18,6 +18,8 @@ public class CooperationSimulation
 		outputGraphToConsole();
 		play(100);
 		graph.listScores();
+
+        System.out.println("Donation rate: " + graph.donationRate());
 	}
 	
 	protected void loadGraphFromFile(String graphMLFilename)

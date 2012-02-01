@@ -14,6 +14,10 @@ public abstract class AbstractGraph
 	
 	// Incidence List
 	protected Map<String, ArrayList<String>> incidenceList = new HashMap<String, ArrayList<String>>();
+
+    // Metrics for calculating donation rate
+    protected int donationCount = 0;
+    protected int possibleDonationCount = 0;
 	
 	public AbstractGraph()
 	{
@@ -197,5 +201,20 @@ public abstract class AbstractGraph
         }
 
         return observers;
+    }
+
+    public void agentDidDonate(String agentId, boolean didDonate)
+    {
+        possibleDonationCount++;
+
+        if (didDonate)
+        {
+            donationCount++;
+        }
+    }
+
+    public double donationRate()
+    {
+        return (double) donationCount / (double) possibleDonationCount;
     }
 }

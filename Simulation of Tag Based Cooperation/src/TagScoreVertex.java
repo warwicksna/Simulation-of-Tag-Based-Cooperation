@@ -77,6 +77,8 @@ public class TagScoreVertex extends AbstractVertex
         {
             ((TagScoreVertex) observer).neighbourDidDonate(vertexId, didDonate);
         }
+
+        graph.get().agentDidDonate(vertexId, didDonate);
 		
 	}
 	
