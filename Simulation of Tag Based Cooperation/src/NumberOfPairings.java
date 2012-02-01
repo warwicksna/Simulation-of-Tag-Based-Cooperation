@@ -1,11 +1,11 @@
 public enum NumberOfPairings
 {
-    Parings2,
-    Parings5,
-    Parings10,
-    Parings15,
-    Parings20,
-    Parings25,
-    Parings50,
-    Parings100
+    Pairings2,
+    Pairings5,
+    Pairings10,
+    Pairings15,
+    Pairings20,
+    Pairings25,
+    Pairings50,
+    Pairings100
 }
