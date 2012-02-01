@@ -10,14 +10,26 @@ public class CooperationSimulation
 	
 	public static void main(String args[])
 	{		
-        String graphmlFilename = "test_graph.xml";
+        // create a new job
+        Job job = new Job();
 
-        if (args.length > 0)
-        {
-            graphmlFilename = args[0];
-        }
+        // setuo the jobs parameters
+        job.setRewireStrategy(RewireStrategy.None);
+        job.setNumberOfPairings(NumberOfPairings.Pairings10);
+        job.setPopulationSize(PopulationSize.Population100);
+        job.setIterationCount(1000);
 
-		new CooperationSimulation(graphmlFilename);
+        // run the job, repeat n-times
+        job.run(5);
+
+        // String graphmlFilename = "test_graph.xml";
+
+        // if (args.length > 0)
+        // {
+            // graphmlFilename = args[0];
+        // }
+
+		// new CooperationSimulation(graphmlFilename);
 	}
 
 	public CooperationSimulation(String graphMLFilename)
