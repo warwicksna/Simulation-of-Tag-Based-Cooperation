@@ -22,6 +22,8 @@ public class CooperationSimulation
         // run the job, repeat n-times
         job.run(5);
 
+        System.out.println("Donation rate: " + job.averageDonationRate());
+
         // String graphmlFilename = "test_graph.xml";
 
         // if (args.length > 0)
