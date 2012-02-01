@@ -23,6 +23,8 @@ public class Job
     {
         repitionCount = runs;
 
+        donationRates = new double[repitionCount];
+
         filename = graphMLFilename(populationSize, numberOfPairings);
 
         for (currentRun = 0; currentRun < repitionCount; currentRun++)
@@ -36,6 +38,8 @@ public class Job
                 AbstractVertex randomVertex = graph.randomVertex();
                 randomVertex.step();
             }
+
+            donationRates[currentRun] = graph.donationRate();
         }
     }
 
