@@ -10,8 +10,16 @@ public class CooperationSimulation
 	
 	public static void main(String args[])
 	{		
-		new CooperationSimulation("test_graph.xml");
+        String graphmlFilename = "test_graph.xml";
+
+        if (args.length > 0)
+        {
+            graphmlFilename = args[0];
+        }
+
+		new CooperationSimulation(graphmlFilename);
 	}
+
 	public CooperationSimulation(String graphMLFilename)
 	{
 		loadGraphFromFile(graphMLFilename);
