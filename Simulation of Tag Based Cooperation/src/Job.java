@@ -162,4 +162,10 @@ public class Job
     {
         return String.format("pop_size_%d.pairing_count_%d.graphml", populationSizeAsInteger(size), numberOfPairingsAsInteger(pairings));
     }
+
+    public String toString()
+    {
+        return String.format("Population Size: %d, Number of Pairings: %d, Rewire strategy: %s, Context Influence: %f\n",
+                populationSizeAsInteger(populationSize), numberOfPairingsAsInteger(numberOfPairings), rewireStrategyAsString(rewireStrategy), contextInfluence);
+    }
 }
