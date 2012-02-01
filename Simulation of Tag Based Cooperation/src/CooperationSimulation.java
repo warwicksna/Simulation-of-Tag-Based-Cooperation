@@ -19,6 +19,7 @@ public class CooperationSimulation
 		play(100);
 		graph.listScores();
 
+        outputGraphToConsole();
         System.out.println("Donation rate: " + graph.donationRate());
 	}
 	
