@@ -1,17 +1,42 @@
 public class Job
 {
-    protected double           contextInfluence;
-    protected RewireStrategy   rewireStrategy;
-    protected NumberOfPairings numberOfParings;
-    protected PopulationSize   populationSize;
+    protected double           contextInfluence = 0.5;
+    protected RewireStrategy   rewireStrategy   = RewireStrategy.Random;
+    protected NumberOfPairings numberOfPairings = NumberOfPairings.Pairings10;
+    protected PopulationSize   populationSize   = PopulationSize.Population100;
+    protected int              iterationCount   = 100;
     protected int              repitionCount;
+
+    protected int              currentRun = 0;
+
+    protected String           filename;
 
     protected double donationRates[];
     protected Object logs[];
 
     public Job()
     {
-    
+
+    }
+
+    public void run(int runs)
+    {
+        repitionCount = runs;
+
+        filename = graphMLFilename(populationSize, numberOfPairings);
+
+        for (currentRun = 0; currentRun < repitionCount; currentRun++)
+        {
+            // Generate a new copy of the graph from file
+            AbstractGraph graph = new GraphMLParser().generateGraphFromFile(filename);
+
+            // Step n iterations
+            for (int iteration = 0; iteration < iterationCount; iteration++)
+            {
+                AbstractVertex randomVertex = graph.randomVertex();
+                randomVertex.step();
+            }
+        }
     }
 
     public double contextInfluence()
@@ -36,12 +61,12 @@ public class Job
 
     public NumberOfPairings numberOfParings()
     {
-        return numberOfParings;
+        return numberOfPairings;
     }
 
     public void setNumberOfPairings(NumberOfPairings pairings)
     {
-        numberOfParings = pairings;
+        numberOfPairings = pairings;
     }
 
     public PopulationSize populationSize()
@@ -72,7 +97,6 @@ public class Job
 
         return "Unknown";
     }
-
 
     public static int numberOfPairingsAsInteger(NumberOfPairings pairings)
     {
@@ -116,5 +140,10 @@ public class Job
         }
 
         return -1;
+    }
+
+    public static String graphMLFilename(PopulationSize size, NumberOfPairings pairings)
+    {
+        return String.format("pop_size_%d.pairing_count_%d.graphml", populationSizeAsInteger(size), numberOfPairingsAsInteger(pairings));
     }
 }
