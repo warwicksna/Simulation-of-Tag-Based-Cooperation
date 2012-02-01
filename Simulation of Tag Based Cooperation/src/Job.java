@@ -45,6 +45,25 @@ public class Job
         return donationRates;
     }
 
+    public double averageDonationRate()
+    {
+        int sampleCount = donationRates.length;
+
+        if (sampleCount == 0)
+        {
+            return 0;
+        }
+
+        double donationRateSum = 0;
+
+        for (int i = 0; i < sampleCount; i++)
+        {
+            donationRateSum += donationRates[i];
+        }
+
+        return donationRateSum / sampleCount;
+    }
+
     public double contextInfluence()
     {
         return contextInfluence;
