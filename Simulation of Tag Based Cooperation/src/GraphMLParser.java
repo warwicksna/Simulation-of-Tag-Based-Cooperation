@@ -1,13 +1,73 @@
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
+import org.xml.sax.XMLReader;
+import org.xml.sax.InputSource;
+import org.xml.sax.helpers.XMLReaderFactory;
+import org.xml.sax.SAXException;
 
 public class GraphMLParser extends DefaultHandler {
 
     AbstractGraph graph;
-    
+
     public GraphMLParser (){
         super();
     }
+
+    public AbstractGraph generateGraphFromFile(String graphMLFilename)
+    {
+        XMLReader saxReader = null;
+
+        try
+        {
+            saxReader = XMLReaderFactory.createXMLReader();
+        }
+        catch (SAXException ex)
+        {
+            System.err.println("Could not create an xml reader to read " + graphMLFilename);
+            System.err.println(ex.getMessage());
+            System.exit(1);
+        }
+
+        saxReader.setContentHandler(this);
+        saxReader.setErrorHandler(this);
+
+        FileReader fileReader = null;
+
+        try
+        {
+            fileReader = new FileReader(graphMLFilename);
+        }
+        catch (FileNotFoundException ex)
+        {
+            System.err.println("Could not find file " + graphMLFilename);
+            System.err.println(ex.getMessage());
+            System.exit(1);
+        }
+
+        try
+        {
+            saxReader.parse(new InputSource(fileReader));
+        }
+        catch (SAXException ex)
+        {
+            System.err.println("Error when parsing " + graphMLFilename);
+            System.err.println(ex.getMessage());
+            System.exit(1);
+        }
+        catch (IOException ex)
+        {
+            System.err.println("IO Error when parsing " + graphMLFilename);
+            System.err.println(ex.getMessage());
+            System.exit(1);
+        }
+
+        return graph;
+    }
+
+
 
  public void startElement (String uri, String name, String qName, Attributes atts)
     {
