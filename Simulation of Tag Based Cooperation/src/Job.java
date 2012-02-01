@@ -19,7 +19,7 @@ public class Job
 
     }
 
-    public void run(int runs)
+    public double[] run(int runs)
     {
         repitionCount = runs;
 
@@ -41,6 +41,8 @@ public class Job
 
             donationRates[currentRun] = graph.donationRate();
         }
+
+        return donationRates;
     }
 
     public double contextInfluence()
