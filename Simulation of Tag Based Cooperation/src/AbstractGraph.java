@@ -18,10 +18,22 @@ public abstract class AbstractGraph
     // Metrics for calculating donation rate
     protected int donationCount = 0;
     protected int possibleDonationCount = 0;
+
+    protected Job job;
 	
 	public AbstractGraph()
 	{
 	}
+
+    public void setJob(Job job)
+    {
+        this.job = job;
+    }
+
+    public Job job()
+    {
+        return job;
+    }
 	
 	public void addVertex(AbstractVertex vertex)
 	{
