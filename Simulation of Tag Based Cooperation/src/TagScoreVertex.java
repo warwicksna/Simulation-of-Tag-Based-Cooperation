@@ -387,7 +387,7 @@ public class TagScoreVertex extends AbstractVertex
         for (AbstractVertex bestNeighbour : bestNeighbours)
         {
             // we can't have duplicate edges
-            if (graph.get().containsEdge(vertexId, newNeighbour.vertexId()))
+            if (graph.get().containsEdge(vertexId, bestNeighbour.vertexId()))
             {
                 randomNeighboursToAdd++;
                 continue;
