@@ -260,7 +260,7 @@ public abstract class AbstractGraph
 
     public void setPercentageOfVerticesAsCheaters(double percentage)
     {
-        int numNodesToConvert = ((double)vertexCount()) * percentage;
+        int numNodesToConvert = (int)Math.round(((double)vertexCount()) * percentage);
 
         while (numNodesToConvert > 0)
         {
@@ -274,7 +274,7 @@ public abstract class AbstractGraph
             }
 
             // turn node into a cheater
-            ((TagScoreVertex).setIsCheater(true);
+            ((TagScoreVertex) randomVertex).setIsCheater(true);
 
             // decrement number left to convert
             numNodesToConvert--;
