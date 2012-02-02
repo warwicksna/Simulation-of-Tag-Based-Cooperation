@@ -14,8 +14,18 @@ public class ObservationQueue
 	
 	public ObservationQueue() {
 		// TODO Auto-generated constructor stub
-		maxSize = 100;
+		maxSize = 10;
 		rank = 0;
+        observe(true);
+        observe(false);
+        observe(true);
+        observe(false);
+        observe(true);
+        observe(false);
+        observe(true);
+        observe(false);
+        observe(true);
+        observe(false);
 	}
 
 	public void observe(boolean didDonate)
