@@ -14,6 +14,8 @@ public class TagScoreVertex extends AbstractVertex
 	protected double tolerance;
 	protected double score;
 	protected Map<String, ObservationQueue> observations = new HashMap<String, ObservationQueue>();
+
+    protected boolean isCheater = false;
 	
 	public TagScoreVertex(AbstractGraph graph, double tag, double tolerance)
 	{
@@ -48,6 +50,16 @@ public class TagScoreVertex extends AbstractVertex
 	{
 		return String.format("tag = %1.5f; tolerance = %1.5f", tag, tolerance);
 	}
+
+    public boolean isCheater()
+    {
+        return isCheater;
+    }
+
+    public void setIsCheater(boolean isCheater)
+    {
+        this.isCheater = isCheater;
+    }
 	
 	public void step()
 	{
