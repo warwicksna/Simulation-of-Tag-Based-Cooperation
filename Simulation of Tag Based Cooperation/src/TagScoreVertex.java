@@ -155,7 +155,7 @@ public class TagScoreVertex extends AbstractVertex
 	protected void learn()
 	{
 		// determine if we should learn or not
-		double probabilityOfLearning = 0.1;
+		double probabilityOfLearning = graph.get().job().probabilityOfLearning();
 		boolean shouldLearn = RandomGenerator.getInstance().booleanWithProbability(probabilityOfLearning);
 		
 		if (!shouldLearn)
