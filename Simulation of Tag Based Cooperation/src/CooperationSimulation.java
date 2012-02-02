@@ -1,9 +1,3 @@
-import java.io.FileReader;
-
-import org.xml.sax.XMLReader;
-import org.xml.sax.InputSource;
-import org.xml.sax.helpers.XMLReaderFactory;
-
 public class CooperationSimulation
 {
 	protected AbstractGraph graph;
@@ -23,7 +17,7 @@ public class CooperationSimulation
             job.setRewireProportion(0.6);
 
             System.out.print("Running job: " + job);
-            
+
             job.run(10);
 
             System.out.println("Donation rate: " + job.averageDonationRate() + "\n");
