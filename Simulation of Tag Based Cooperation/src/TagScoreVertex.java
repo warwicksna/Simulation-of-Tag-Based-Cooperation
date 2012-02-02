@@ -280,7 +280,15 @@ public class TagScoreVertex extends AbstractVertex
 	{
 		ArrayList<AbstractVertex> rankedNeighbours = rankNeighbours();
 		
-		List<AbstractVertex> worstNeighbours = rankedNeighbours.subList(0, count);
+        List<AbstractVertex> worstNeighbours;
+        if (count > rankedNeighbours.size())
+        {
+            worstNeighbours = rankedNeighbours;
+        }
+        else
+        {
+		    worstNeighbours = rankedNeighbours.subList(0, count);
+        }
 		
 		for (AbstractVertex neighbour : worstNeighbours)
 		{
