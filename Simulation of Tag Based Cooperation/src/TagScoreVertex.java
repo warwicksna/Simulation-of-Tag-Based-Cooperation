@@ -185,7 +185,7 @@ public class TagScoreVertex extends AbstractVertex
 	{
         int numberOfNeighbours = graph.get().neighboursForVertex(vertexId).size();
         double rewireProportion = graph.get().job().rewireProportion();
-        int lambda = Math.round(((double) numberOfNeighbours) * rewireProportion);
+        int lambda = (int)Math.round(((double) numberOfNeighbours) * rewireProportion);
 
         switch (graph.get().job().rewireStrategy())
         {
