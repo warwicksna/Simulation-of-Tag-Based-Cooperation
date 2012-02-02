@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Job
 {
     protected double           contextInfluence = 0.5;
@@ -56,14 +58,15 @@ public class Job
     public void printDescription()
     {
         System.out.format("Job %d\n==================================\n", jobId);
-        System.out.println("Population size:       " + populationSizeAsInteger(populationSize));
-        System.out.println("Number of pairings:    " + numberOfPairingsAsInteger(numberOfPairings));
-        System.out.println("Rewiring strategy:     " + rewireStrategyAsString(rewireStrategy));
-        System.out.format("Context Influence:     %.3f\n", contextInfluence);
+        System.out.println("       Population size: " + populationSizeAsInteger(populationSize));
+        System.out.println("    Number of pairings: " + numberOfPairingsAsInteger(numberOfPairings));
+        System.out.println("     Rewiring strategy: " + rewireStrategyAsString(rewireStrategy));
+        System.out.format("     Context Influence: %.3f\n", contextInfluence);
         System.out.println("----------------------------------");
-        System.out.format("Average donation rate: %.3f\n", averageDonationRate());
-        System.out.format("Minimum donation rate: %.3f\n", minimumDonationRate());
-        System.out.format("Maximum donation rate: %.3f\n", maximumDonationRate());
+        System.out.format(" Average donation rate: %.3f\n", averageDonationRate());
+        System.out.format(" Minimum donation rate: %.3f\n", minimumDonationRate());
+        System.out.format(" Maximum donation rate: %.3f\n", maximumDonationRate());
+        System.out.format("  Median donation rate: %.3f\n", medianDonationRate());
         System.out.println("----------------------------------\n");
     }
 
@@ -119,6 +122,37 @@ public class Job
 
         return minimum;
     }
+
+    public double medianDonationRate()
+    {
+        if (donationRates.length == 0)
+        {
+            return 0;
+        }
+
+        double[] sortedDonationRates = new double[donationRates.length];
+
+        System.arraycopy(donationRates, 0, sortedDonationRates, 0, donationRates.length);
+
+        Arrays.sort(sortedDonationRates);
+
+        double median = 0;
+
+        if (sortedDonationRates.length % 2 == 0)
+        {
+            double lowerBound = sortedDonationRates[(sortedDonationRates.length / 2) - 1];
+            double upperBound = sortedDonationRates[(sortedDonationRates.length / 2)];
+
+            median = (lowerBound + upperBound) / 2.0;
+        }
+        else
+        {
+            median = sortedDonationRates[((sortedDonationRates.length + 1) / 2) - 1];
+        }
+
+        return median;
+    }
+
 
     public double contextInfluence()
     {
