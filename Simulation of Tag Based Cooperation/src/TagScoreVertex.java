@@ -235,8 +235,12 @@ public class TagScoreVertex extends AbstractVertex
 		// get all neighbours (to prevent duplicate neighbours)
 		ArrayList<AbstractVertex> neighbours = graph.get().neighboursForVertex(vertexId);
 		
-		// TODO: check that there are enough agents in the graph
-		
+        // check that there are enough vertices to add
+        if (count > (graph.vertexCount() - 1) - neighbours.size())
+        {
+            count = (graph.vertexCount() - 1) - neighbours.size();
+        }
+
 		int neighboursAdded = 0;
 		
 		// while neighbours added < count

@@ -229,4 +229,9 @@ public abstract class AbstractGraph
     {
         return (double) donationCount / (double) possibleDonationCount;
     }
+
+    public int vertexCount()
+    {
+        return vertexList.size();
+    }
 }
