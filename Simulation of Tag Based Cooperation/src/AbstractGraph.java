@@ -257,4 +257,27 @@ public abstract class AbstractGraph
     {
         return vertexList.size();
     }
+
+    public void setPercentageOfVerticesAsCheaters(double percentage)
+    {
+        int numNodesToConvert = ((double)vertexCount()) * percentage;
+
+        while (numNodesToConvert > 0)
+        {
+            // pick a random vertex
+            AbstractVertex randomVertex = randomVertex();
+
+            // if this node is already a cheater, continue
+            if (((TagScoreVertex)randomVertex).isCheater())
+            {
+                continue;
+            }
+
+            // turn node into a cheater
+            ((TagScoreVertex).setIsCheater(true);
+
+            // decrement number left to convert
+            numNodesToConvert--;
+        }
+    }
 }
