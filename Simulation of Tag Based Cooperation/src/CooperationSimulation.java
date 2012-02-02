@@ -1,7 +1,5 @@
 public class CooperationSimulation
 {
-	protected AbstractGraph graph;
-	
 	public static void main(String args[])
 	{		
         for (double contextInfluence = 0; contextInfluence <= 1; contextInfluence += 0.1)
@@ -22,13 +20,5 @@ public class CooperationSimulation
 
             System.out.println("Donation rate: " + job.averageDonationRate() + "\n");
         }
-	}
-
-	protected void outputGraphToConsole()
-	{
-		System.out.println("List of vertices");
-		graph.listVertices();
-		System.out.println("List of edges for each vertex");
-		graph.listEdges();
 	}
 }
