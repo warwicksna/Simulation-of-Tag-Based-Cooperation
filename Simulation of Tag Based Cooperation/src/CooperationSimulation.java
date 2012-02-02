@@ -13,7 +13,7 @@ public class CooperationSimulation
         // create a new job
         Job job = new Job();
 
-        // setuo the jobs parameters
+        // setup the jobs parameters
         job.setRewireStrategy(RewireStrategy.None);
         job.setNumberOfPairings(NumberOfPairings.Pairings10);
         job.setPopulationSize(PopulationSize.Population100);
