@@ -10,6 +10,7 @@ public class Job
     protected double           probabilityOfLearning = 0.1;
     protected int              repitionCount;
     protected double           rewireProportion = 0.6;
+    protected double           cheatingPercentage = 0.1;
 
     protected int              currentRun = 0;
 
@@ -222,6 +223,16 @@ public class Job
     public void setRewireProportion(double proportion)
     {
         rewireProportion = proportion;
+    }
+
+    public double cheatingPercentage()
+    {
+        return cheatingPercentage;
+    }
+
+    public void setCheatingPercentage(double percentage)
+    {
+        cheatingPercentage = percentage;
     }
 
     public static String rewireStrategyAsString(RewireStrategy strategy)
