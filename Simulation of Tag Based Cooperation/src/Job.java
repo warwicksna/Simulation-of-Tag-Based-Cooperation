@@ -5,6 +5,7 @@ public class Job
     protected NumberOfPairings numberOfPairings = NumberOfPairings.Pairings10;
     protected PopulationSize   populationSize   = PopulationSize.Population100;
     protected int              iterationCount   = 100;
+    protected int              lambda           = 10; // number to remove/add when rewiring
     protected int              repitionCount;
 
     protected int              currentRun = 0;
@@ -113,6 +114,16 @@ public class Job
     public void setIterationCount(int iterations)
     {
         iterationCount = iterations;
+    }
+
+    public int lambda()
+    {
+        return lambda;
+    }
+
+    public void setLambda(int lambda)
+    {
+        this.lambda = lambda;
     }
 
     public static String rewireStrategyAsString(RewireStrategy strategy)
