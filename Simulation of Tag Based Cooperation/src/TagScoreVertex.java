@@ -236,9 +236,9 @@ public class TagScoreVertex extends AbstractVertex
 		ArrayList<AbstractVertex> neighbours = graph.get().neighboursForVertex(vertexId);
 		
         // check that there are enough vertices to add
-        if (count > (graph.vertexCount() - 1) - neighbours.size())
+        if (count > (graph.get().vertexCount() - 1) - neighbours.size())
         {
-            count = (graph.vertexCount() - 1) - neighbours.size();
+            count = (graph.get().vertexCount() - 1) - neighbours.size();
         }
 
 		int neighboursAdded = 0;
