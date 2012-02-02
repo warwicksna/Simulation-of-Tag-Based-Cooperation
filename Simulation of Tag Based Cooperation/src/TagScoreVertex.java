@@ -529,11 +529,19 @@ public class TagScoreVertex extends AbstractVertex
 		
 		for (Map.Entry<String, ObservationQueue> neighbourObservation : observations.entrySet())
 		{
+            if (neighbourObservation.getValue().getObservationCount() == 0)
+            {
+                //System.out.println("Cheating");
+                neighbourhoodAssessment += 0.5;
+            }
+
 			neighbourhoodAssessment += neighbourObservation.getValue().contextAssessment();
 		}
-		
+
+        // System.out.println("Neighbourhood assessment: " + neighbourhoodAssessment);
 		neighbourhoodAssessment /= observations.size();
 		
+        // System.out.println("Neighbourhood assessment: " + neighbourhoodAssessment);
 		return neighbourhoodAssessment;
 	}
 	

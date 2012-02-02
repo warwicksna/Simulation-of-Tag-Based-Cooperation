@@ -28,6 +28,15 @@ public class ObservationQueue
 		
 		observations.offer(new Boolean(didDonate));
 		rank = (didDonate) ? rank + 1 : rank - 1;
+
+        // if (didDonate)
+        // {
+        //     System.out.println("observing +");
+        // }
+        // else
+        // {
+        //     System.out.println("observing -");
+        // }
 	}
 	
 	public String toString()
