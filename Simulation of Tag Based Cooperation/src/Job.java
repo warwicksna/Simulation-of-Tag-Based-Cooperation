@@ -8,6 +8,7 @@ public class Job
     protected int              lambda           = 10; // number to remove/add when rewiring
     protected double           probabilityOfLearning = 0.1;
     protected int              repitionCount;
+    protected double           rewireProportion = 0.6;
 
     protected int              currentRun = 0;
 
@@ -135,6 +136,16 @@ public class Job
     public void setProbabilityOfLearning(double probability)
     {
         probabilityOfLearning = probability;
+    }
+
+    public double rewireProportion()
+    {
+        return rewireProportion;
+    }
+
+    public void setRewireProportion(double proportion)
+    {
+        rewireProportion = proportion;
     }
 
     public static String rewireStrategyAsString(RewireStrategy strategy)
