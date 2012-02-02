@@ -323,8 +323,6 @@ public class TagScoreVertex extends AbstractVertex
 	
 	protected void individualReplaceWorstRewire(int lambda)
 	{
-        // TODO: check duplicates are not added in random section
-
 		// remove \lambda worst neighbours
 		removeWorstNeighbours(lambda);
 		
@@ -332,17 +330,18 @@ public class TagScoreVertex extends AbstractVertex
 		TagScoreVertex bestNeighbour = bestNeighbour();
 		List<AbstractVertex> neighboursToAdd = bestNeighbour.bestNeighbours(lambda);
 
-        List<AbstractVertex> currentNeighbours = graph.get().neighboursForVertex(vertexId);
         int randomNeighboursToAdd = 0;
 
         for (AbstractVertex newNeighbour : neighboursToAdd)
         {
-            if (currentNeighbours.contains(newNeighbour))
+            // we can't have duplicate edges
+            if (graph.get().containsEdge(vertexId, newNeighbour.vertexId()))
             {
                 randomNeighboursToAdd++;
                 continue;
             }
 
+            // we can't have an edge to ourselves
             if (vertexId.equals(newNeighbour.vertexId()))
             {
                 randomNeighboursToAdd++;
@@ -352,16 +351,17 @@ public class TagScoreVertex extends AbstractVertex
             graph.get().addEdge(this, newNeighbour);
         }
 
-        currentNeighbours = graph.get().neighboursForVertex(vertexId);
         while (randomNeighboursToAdd > 0)
         {
             AbstractVertex newNeighbour = graph.get().randomVertex();
 
-            if (currentNeighbours.contains(newNeighbour))
+            // we can't have duplicate edges
+            if (graph.get().containsEdge(vertexId, newNeighbour.vertexId()))
             {
                 continue;
             }
 
+            // we can't have an edge to ourselves
             if (vertexId.equals(newNeighbour.vertexId()))
             {
                 continue;
