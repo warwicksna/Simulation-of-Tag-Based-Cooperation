@@ -256,12 +256,12 @@ public class TagScoreVertex extends AbstractVertex
 			{
 				continue;
 			}
-			
-			// we can't have duplicate edges
-			if (neighbours.contains(randomAgent))
-			{
-				continue;
-			}
+
+            // we can't have duplicate edges
+            if (graph.get().containsEdge(vertexId, randomAgent.vertexId()))
+            {
+                continue;
+            }
 			
 			// add neighbour
 			graph.get().addEdge(this, randomAgent);
