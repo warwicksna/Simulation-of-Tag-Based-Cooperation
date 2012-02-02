@@ -55,13 +55,15 @@ public class Job
 
     public void printDescription()
     {
-        System.out.format("Job %5d\n==================================\n", jobId);
+        System.out.format("Job %d\n==================================\n", jobId);
         System.out.println("Population size:       " + populationSizeAsInteger(populationSize));
         System.out.println("Number of pairings:    " + numberOfPairingsAsInteger(numberOfPairings));
         System.out.println("Rewiring strategy:     " + rewireStrategyAsString(rewireStrategy));
         System.out.format("Context Influence:     %.3f\n", contextInfluence);
         System.out.println("----------------------------------");
         System.out.format("Average donation rate: %.3f\n", averageDonationRate());
+        System.out.format("Minimum donation rate: %.3f\n", minimumDonationRate());
+        System.out.format("Maximum donation rate: %.3f\n", maximumDonationRate());
         System.out.println("----------------------------------\n");
     }
 
@@ -82,6 +84,40 @@ public class Job
         }
 
         return donationRateSum / sampleCount;
+    }
+
+    public double maximumDonationRate()
+    {
+        int sampleCount = donationRates.length;
+
+        double maximum = 0;
+
+        for (int i = 0; i < sampleCount; i++)
+        {
+            if (donationRates[i] > maximum)
+            {
+                maximum = donationRates[i];
+            }
+        }
+
+        return maximum;
+    }
+
+    public double minimumDonationRate()
+    {
+        int sampleCount = donationRates.length;
+
+        double minimum = 1;
+
+        for (int i = 0; i < sampleCount; i++)
+        {
+            if (donationRates[i] < minimum)
+            {
+                minimum = donationRates[i];
+            }
+        }
+
+        return minimum;
     }
 
     public double contextInfluence()
