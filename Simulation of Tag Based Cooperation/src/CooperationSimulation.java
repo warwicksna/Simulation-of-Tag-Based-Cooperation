@@ -23,7 +23,7 @@ public class CooperationSimulation
         job.setRewireProportion(0.6);
 
         // run the job, repeat n-times
-        job.run(5);
+        job.run(10);
 
         System.out.println("Donation rate: " + job.averageDonationRate());
 
