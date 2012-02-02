@@ -384,15 +384,16 @@ public class TagScoreVertex extends AbstractVertex
         List<AbstractVertex> currentNeighbours = graph.get().neighboursForVertex(vertexId);
         int randomNeighboursToAdd = 0;
 
-        // TODO: only add neighbour if it is possible to add unique neighbour
         for (AbstractVertex bestNeighbour : bestNeighbours)
         {
-            if (currentNeighbours.contains(bestNeighbour))
+            // we can't have duplicate edges
+            if (graph.get().containsEdge(vertexId, newNeighbour.vertexId()))
             {
                 randomNeighboursToAdd++;
                 continue;
             }
 
+            // we can't have an edge to ourselves
             if (vertexId.equals(bestNeighbour.vertexId()))
             {
                 randomNeighboursToAdd++;
@@ -412,11 +413,13 @@ public class TagScoreVertex extends AbstractVertex
         {
             AbstractVertex newNeighbour = graph.get().randomVertex();
 
-            if (currentNeighbours.contains(newNeighbour))
+            // we can't have duplicate edges
+            if (graph.get().containsEdge(vertexId, newNeighbour.vertexId()))
             {
                 continue;
             }
 
+            // we can't have an edge to ourselved
             if (vertexId.equals(newNeighbour.vertexId()))
             {
                 continue;
