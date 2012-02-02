@@ -13,6 +13,7 @@ public class CooperationSimulation
             job.setContextInfluence(contextInfluence);
             job.setProbabilityOfLearning(0.1);
             job.setRewireProportion(0.6);
+            job.setCheatingPercentage(0.3);
 
             job.run(10);
         }
