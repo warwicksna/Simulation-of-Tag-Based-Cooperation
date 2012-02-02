@@ -18,6 +18,8 @@ public class CooperationSimulation
         job.setNumberOfPairings(NumberOfPairings.Pairings10);
         job.setPopulationSize(PopulationSize.Population100);
         job.setIterationCount(1000);
+        job.setContextInfluence(0.5);
+        job.setProbabilityOfLearning(0.1);
 
         // run the job, repeat n-times
         job.run(5);
