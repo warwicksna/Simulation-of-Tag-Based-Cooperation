@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -48,6 +49,28 @@ public abstract class AbstractGraph
 	public abstract void addEdge(String vertexAId, String vertexBId);
 	public abstract void addEdge(AbstractVertex vertexA, AbstractVertex vertexB, String edgeId);
 	public abstract void addEdge(String vertexAId, String vertexBId, String edgeId);
+
+    public boolean containsEdge(AbstractVertex vertexA, AbstractVertex vertexB)
+    {
+        return containsEdge(vertexA.vertexId(), vertexB.vertexId());
+    }
+
+    public boolean containsEdge(String vertexAId, String vertexBId)
+    {
+        List<String> edgeIds = incidenceList.get(vertexAId);
+
+        for (String edgeId : edgeIds)
+        {
+            AbstractEdge edge = edges.get(edgeId);
+
+            if (edge.secondVertexId().equals(vertexBId))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 	
 	public void removeVertex(AbstractVertex vertex)
 	{
