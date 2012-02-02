@@ -31,6 +31,7 @@ public class Job
         {
             // Generate a new copy of the graph from file
             AbstractGraph graph = new GraphMLParser().generateGraphFromFile(filename);
+            graph.setJob(this);
 
             // Step n iterations
             for (int iteration = 0; iteration < iterationCount; iteration++)
