@@ -379,9 +379,24 @@ public class TagScoreVertex extends AbstractVertex
         List<AbstractVertex> bestNeighbours = bestNeighbours(lambda);
         List<AbstractVertex> chosenNeighbours = new ArrayList<AbstractVertex>();
 
+        List<AbstractVertex> currentNeighbours = graph.get().neighboursForVertex(vertexId);
+        int randomNeighboursToAdd = 0;
+
         // TODO: only add neighbour if it is possible to add unique neighbour
         for (AbstractVertex bestNeighbour : bestNeighbours)
         {
+            if (currentNeighbours.contains(bestNeighbour))
+            {
+                randomNeighboursToAdd++;
+                continue;
+            }
+
+            if (vertexId.equals(bestNeighbour.vertexId()))
+            {
+                randomNeighboursToAdd++;
+                continue;
+            }
+
             chosenNeighbours.add(((TagScoreVertex) bestNeighbour).bestNeighbour());
         }
 
@@ -389,6 +404,26 @@ public class TagScoreVertex extends AbstractVertex
         {
             graph.get().addEdge(this, newNeighbour);
         }
+
+        currentNeighbours = graph.get().neighboursForVertex(vertexId);
+        while (randomNeighboursToAdd > 0)
+        {
+            AbstractVertex newNeighbour = graph.get().randomVertex();
+
+            if (currentNeighbours.contains(newNeighbour))
+            {
+                continue;
+            }
+
+            if (vertexId.equals(newNeighbour.vertexId()))
+            {
+                continue;
+            }
+
+            graph.get().addEdge(this, newNeighbour);
+            randomNeighboursToAdd--;
+        }
+
 	}
 	
 	public TagScoreVertex bestNeighbour()
