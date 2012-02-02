@@ -6,6 +6,7 @@ public class Job
     protected PopulationSize   populationSize   = PopulationSize.Population100;
     protected int              iterationCount   = 100;
     protected int              lambda           = 10; // number to remove/add when rewiring
+    protected double           probabilityOfLearning = 0.1;
     protected int              repitionCount;
 
     protected int              currentRun = 0;
@@ -124,6 +125,16 @@ public class Job
     public void setLambda(int lambda)
     {
         this.lambda = lambda;
+    }
+
+    public double probabilityOfLearning()
+    {
+        return probabilityOfLearning;
+    }
+
+    public void setProbabilityOfLearning(double probability)
+    {
+        probabilityOfLearning = probability;
     }
 
     public static String rewireStrategyAsString(RewireStrategy strategy)
