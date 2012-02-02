@@ -51,7 +51,7 @@ public class TagScoreVertex extends AbstractVertex
 	
 	public void step()
 	{
-		System.out.format("Agent %s stepping\n", vertexId);
+//		System.out.format("Agent %s stepping\n", vertexId);
 		donate();
 		learn();
 	}
@@ -482,7 +482,7 @@ public class TagScoreVertex extends AbstractVertex
 		{
 			// mutate tag by generating a new tag
 			tagAndTolerance[0] = RandomGenerator.getInstance().nextDouble();
-			System.out.println("mutated tag from " + tag + " to " + tagAndTolerance[0]);
+//			System.out.println("mutated tag from " + tag + " to " + tagAndTolerance[0]);
 		}
 		
 		// should we mutate the tolerance
@@ -506,7 +506,7 @@ public class TagScoreVertex extends AbstractVertex
 				tagAndTolerance[1] = 1;
 			}
 			
-			System.out.println("mutated tolerance from " + tolerance + " to " + tagAndTolerance[1]);
+//			System.out.println("mutated tolerance from " + tolerance + " to " + tagAndTolerance[1]);
 		}
 		
 		return tagAndTolerance;
