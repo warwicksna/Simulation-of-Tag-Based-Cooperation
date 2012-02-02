@@ -349,9 +349,18 @@ public class TagScoreVertex extends AbstractVertex
 		
 		// add the best \lambda neighbours from the best neighbour
 		TagScoreVertex bestNeighbour = bestNeighbour();
-		List<AbstractVertex> neighboursToAdd = bestNeighbour.bestNeighbours(lambda);
-
         int randomNeighboursToAdd = 0;
+
+        List<AbstractVertex> neighboursToAdd;
+        if (bestNeighbour != null)
+        {
+            neighboursToAdd = bestNeighbour.bestNeighbours(lambda);
+        }
+        else
+        {
+            neighboursToAdd = new ArrayList<AbstractVertex>();
+            randomNeighboursToAdd = lambda;
+        }
 
         for (AbstractVertex newNeighbour : neighboursToAdd)
         {
@@ -455,6 +464,11 @@ public class TagScoreVertex extends AbstractVertex
 	public TagScoreVertex bestNeighbour()
 	{		
 		List<AbstractVertex> bestNeighbourList = bestNeighbours(1);
+        
+        if (bestNeighbourList.size() == 0)
+        {
+            return null;
+        }
 		
 		return (TagScoreVertex)bestNeighbourList.get(0);
 	}
@@ -462,6 +476,11 @@ public class TagScoreVertex extends AbstractVertex
 	public List<AbstractVertex> bestNeighbours(int count)
 	{
 		ArrayList<AbstractVertex> rankedNeighbours = rankNeighbours();
+
+        if (count > rankedNeighbours.size())
+        {
+            count = rankedNeighbours.size();
+        }
 		
 		List<AbstractVertex> bestNeighbours = rankedNeighbours.subList(rankedNeighbours.size() - count, rankedNeighbours.size());
 		
