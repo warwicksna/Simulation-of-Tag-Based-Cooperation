@@ -73,7 +73,9 @@ public class GraphMLParser extends DefaultHandler {
     {
         //System.out.println("Start element: " + name );
         if("node".equals(name)){
-            AbstractVertex newVertex = new TagScoreVertex(graph, atts.getValue("id"), 0.5, 0.4);
+            double initialTag = RandomGenerator.getInstance().nextDouble();
+            double initialTolerance = RandomGenerator.getInstance().nextDouble();
+            AbstractVertex newVertex = new TagScoreVertex(graph, atts.getValue("id"), initialTag, initialTolerance);
             graph.addVertex(newVertex);
         }
         else if("edge".equals(name)){
