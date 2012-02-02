@@ -43,6 +43,7 @@ public class Job
             }
 
             donationRates[currentRun] = graph.donationRate();
+//            System.out.println("run = " + currentRun + " donation rate = " + graph.donationRate());
         }
 
         return donationRates;
@@ -202,7 +203,7 @@ public class Job
 
     public static String graphMLFilename(PopulationSize size, NumberOfPairings pairings)
     {
-        return String.format("pop_size_%d.pairing_count_%d.graphml", populationSizeAsInteger(size), numberOfPairingsAsInteger(pairings));
+        return String.format("graphs/pop_size_%d.pairing_count_%d.directed.graphml", populationSizeAsInteger(size), numberOfPairingsAsInteger(pairings));
     }
 
     public String toString()
