@@ -183,7 +183,7 @@ public class TagScoreVertex extends AbstractVertex
 	
 	protected void rewire()
 	{
-		int lambda = 2;
+		int lambda = graph.get().job().lambda();
 
         switch (graph.get().job().rewireStrategy())
         {
