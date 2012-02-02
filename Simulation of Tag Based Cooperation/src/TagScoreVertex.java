@@ -70,6 +70,13 @@ public class TagScoreVertex extends AbstractVertex
 	
 	protected void donate()
 	{
+        // if this agent is a cheater, then we do not donate
+        if (isCheater)
+        {
+            updateObservers(false);
+            return;
+        }
+
 		// get list of neighbours
 		ArrayList<AbstractVertex> neighbours = graph.get().neighboursForVertex(vertexId);
 
@@ -81,8 +88,11 @@ public class TagScoreVertex extends AbstractVertex
 		
 		// update all neighbours with the donation responses
 		boolean didDonate = neighboursWithinTolerance.size() > 0;
+        updateObservers(didDonate);
+	}
 
-        // get list of observers
+    protected void updateObservers(boolean didDonate)
+    {
         ArrayList<AbstractVertex> observers = graph.get().observersForVertex(vertexId);
 
         for (AbstractVertex observer : observers)
@@ -91,8 +101,7 @@ public class TagScoreVertex extends AbstractVertex
         }
 
         graph.get().agentDidDonate(vertexId, didDonate);
-		
-	}
+    }
 	
 	public void neighbourDidDonate(String neighbourId, boolean didDonate)
 	{
