@@ -14,7 +14,7 @@ public class ObservationQueue
 	
 	public ObservationQueue() {
 		// TODO Auto-generated constructor stub
-		maxSize = 100000;
+		maxSize = 100;
 		rank = 0;
 	}
 

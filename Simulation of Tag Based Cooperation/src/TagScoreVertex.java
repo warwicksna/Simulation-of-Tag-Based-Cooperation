@@ -70,15 +70,23 @@ public class TagScoreVertex extends AbstractVertex
 	
 	protected void donate()
 	{
+        // get list of neighbours
+		ArrayList<AbstractVertex> neighbours = graph.get().neighboursForVertex(vertexId);
+        ArrayList<AbstractVertex> observers = graph.get().observersForVertex(vertexId);
+
         // if this agent is a cheater, then we do not donate
         if (isCheater)
         {
-            updateObservers(false);
+            for (AbstractVertex observer : observers)
+            {
+                for (int i = 0; i < neighbours.size(); i++)
+                {
+                    ((TagScoreVertex) observer).neighbourDidDonate(vertexId, false);
+                    graph.get().agentDidDonate(vertexId, false);
+                }
+            }
             return;
         }
-
-		// get list of neighbours
-		ArrayList<AbstractVertex> neighbours = graph.get().neighboursForVertex(vertexId);
 
 		// keep only the neighbours within tolerance value
 		ArrayList<TagScoreVertex> neighboursWithinTolerance = neighboursWithinTolerance(neighbours);
@@ -87,8 +95,26 @@ public class TagScoreVertex extends AbstractVertex
 		donateToNeighbours(neighboursWithinTolerance);
 		
 		// update all neighbours with the donation responses
-		boolean didDonate = neighboursWithinTolerance.size() > 0;
-        updateObservers(didDonate);
+		// boolean didDonate = neighboursWithinTolerance.size() > 0;
+        // updateObservers(didDonate);
+
+        int donationsMade = neighboursWithinTolerance.size();
+        int donationsNotMade = neighbours.size() - donationsMade;
+
+        for (AbstractVertex observer : observers)
+        {
+            for (int i = 0; i < donationsMade; i++)
+            {
+                ((TagScoreVertex) observer).neighbourDidDonate(vertexId, true);
+                graph.get().agentDidDonate(vertexId, true);
+            }
+
+            for (int i = 0; i < donationsNotMade; i++)
+            {
+                ((TagScoreVertex) observer).neighbourDidDonate(vertexId, false);
+                graph.get().agentDidDonate(vertexId, false);
+            }
+        }
 	}
 
     protected void updateObservers(boolean didDonate)
