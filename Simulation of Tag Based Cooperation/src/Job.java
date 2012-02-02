@@ -63,6 +63,7 @@ public class Job
         System.out.println("       Population size: " + populationSizeAsInteger(populationSize));
         System.out.println("    Number of pairings: " + numberOfPairingsAsInteger(numberOfPairings));
         System.out.println("     Rewiring strategy: " + rewireStrategyAsString(rewireStrategy));
+        System.out.format("    Rewire percentage: %.3f\n", rewireProportion);
         System.out.format("     Context Influence: %.3f\n", contextInfluence);
         System.out.format("   Cheating Percentage: %.3f\n", cheatingPercentage);
         System.out.println("----------------------------------");

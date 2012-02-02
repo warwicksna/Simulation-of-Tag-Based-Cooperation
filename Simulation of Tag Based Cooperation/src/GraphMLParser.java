@@ -93,7 +93,8 @@ public class GraphMLParser extends DefaultHandler {
                 graph = new DirectedGraph();
             }
             else{
-                graph = new UndirectedGraph();
+//                graph = new UndirectedGraph();
+                graph = new DirectedGraph();
             }
         }
         return;
