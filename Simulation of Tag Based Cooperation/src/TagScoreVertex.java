@@ -95,7 +95,7 @@ public class TagScoreVertex extends AbstractVertex
 	{
 		ArrayList<TagScoreVertex> neighboursWithinTolerance = new ArrayList<TagScoreVertex>();
 		
-		double contextInfluence = 0.1;
+		double contextInfluence = graph.get().job().contextInfluence();
 		double contextAssessment = neighbourhoodAssessment();
 		
 		for (AbstractVertex neighbour : neighbours)
