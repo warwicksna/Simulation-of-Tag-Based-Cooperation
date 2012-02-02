@@ -14,11 +14,7 @@ public class CooperationSimulation
             job.setProbabilityOfLearning(0.1);
             job.setRewireProportion(0.6);
 
-            System.out.print("Running job: " + job);
-
             job.run(10);
-
-            System.out.println("Donation rate: " + job.averageDonationRate() + "\n");
         }
 	}
 }

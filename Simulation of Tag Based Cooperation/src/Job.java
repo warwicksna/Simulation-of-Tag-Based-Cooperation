@@ -16,9 +16,12 @@ public class Job
     protected double donationRates[];
     protected Object logs[];
 
+    protected static int nextJobId = 0;
+    protected int jobId;
+
     public Job()
     {
-
+        jobId = nextJobId++;
     }
 
     public double[] run(int runs)
@@ -43,10 +46,23 @@ public class Job
             }
 
             donationRates[currentRun] = graph.donationRate();
-//            System.out.println("run = " + currentRun + " donation rate = " + graph.donationRate());
         }
 
+        printDescription();
+
         return donationRates;
+    }
+
+    public void printDescription()
+    {
+        System.out.format("Job %5d\n==================================\n", jobId);
+        System.out.println("Population size:       " + populationSizeAsInteger(populationSize));
+        System.out.println("Number of pairings:    " + numberOfPairingsAsInteger(numberOfPairings));
+        System.out.println("Rewiring strategy:     " + rewireStrategyAsString(rewireStrategy));
+        System.out.format("Context Influence:     %.3f\n", contextInfluence);
+        System.out.println("----------------------------------");
+        System.out.format("Average donation rate: %.3f\n", averageDonationRate());
+        System.out.println("----------------------------------\n");
     }
 
     public double averageDonationRate()
