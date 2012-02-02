@@ -40,6 +40,7 @@ public class Job
             // Generate a new copy of the graph from file
             AbstractGraph graph = new GraphMLParser().generateGraphFromFile(filename);
             graph.setJob(this);
+            graph.setPercentageOfVerticesAsCheaters(cheatingPercentage);
 
             // Step n iterations
             for (int iteration = 0; iteration < iterationCount; iteration++)
@@ -63,6 +64,7 @@ public class Job
         System.out.println("    Number of pairings: " + numberOfPairingsAsInteger(numberOfPairings));
         System.out.println("     Rewiring strategy: " + rewireStrategyAsString(rewireStrategy));
         System.out.format("     Context Influence: %.3f\n", contextInfluence);
+        System.out.format("   Cheating Percentage: %.3f\n", cheatingPercentage);
         System.out.println("----------------------------------");
         System.out.format(" Average donation rate: %.3f\n", averageDonationRate());
         System.out.format(" Minimum donation rate: %.3f\n", minimumDonationRate());
