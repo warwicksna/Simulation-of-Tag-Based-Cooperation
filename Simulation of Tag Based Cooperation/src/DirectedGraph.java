@@ -39,6 +39,14 @@ public class DirectedGraph extends AbstractGraph
 		// notify vertex that a neighbour was added
 		AbstractVertex fromVertex = vertices.get(fromVertexId);
 		fromVertex.neighbourWasAdded(toVertexId);
+
+        if (job == null)
+        {
+            return;
+        }
+
+        AbstractMessage message = new EdgeAddedMessage(edge);
+        job.registerMessage(message);
 	}
 	
 	public void removeEdge(String fromVertexId, String toVertexId)
