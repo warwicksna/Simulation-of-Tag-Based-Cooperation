@@ -18,7 +18,7 @@ public class CooperationSimulation
 
             job.run(10);
 
-            job.WriteMessagesToFile("context_influence_" + String.format("%.1f", contextInfluence) + ".log");
+            job.writeMessagesToFile("context_influence_" + String.format("%.1f", contextInfluence) + ".log");
         }
 
 //        System.out.println("========== CHEATERS = 10% ================");

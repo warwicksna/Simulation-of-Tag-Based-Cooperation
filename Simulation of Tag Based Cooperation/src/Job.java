@@ -50,7 +50,7 @@ public class Job
             for (int iteration = 0; iteration < iterationCount; iteration++)
             {
                 TimeIntervalBegunMessage message = new TimeIntervalBegunMessage();
-                RegisterMessage(message);
+                registerMessage(message);
                 AbstractVertex randomVertex = graph.randomVertex();
                 randomVertex.step();
             }
@@ -318,12 +318,12 @@ public class Job
                 populationSizeAsInteger(populationSize), numberOfPairingsAsInteger(numberOfPairings), rewireStrategyAsString(rewireStrategy), contextInfluence);
     }
 
-    public void RegisterMessage(AbstractMessage message)
+    public void registerMessage(AbstractMessage message)
     {
         messages.add(message);
     }
 
-    public void WriteMessagesToFile(String filename)
+    public void writeMessagesToFile(String filename)
     {
         FileWriter fw = null;
         BufferedWriter bw;
