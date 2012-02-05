@@ -225,6 +225,9 @@ public class TagScoreVertex extends AbstractVertex
 
 		tag = newTagAndTolerance[0];
 		tolerance = newTagAndTolerance[1];
+
+        AbstractMessage message = new VertexLearntMessage(this, randomAgent);
+        graph.get().job().registerMessage(message);
 		
 		// rewire the agent's neighbourhood
         rewire();
