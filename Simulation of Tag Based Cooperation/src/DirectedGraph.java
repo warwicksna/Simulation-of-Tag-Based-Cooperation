@@ -75,6 +75,12 @@ public class DirectedGraph extends AbstractGraph
 		if (edge != null)
 		{
 			incidenceList.get(toVertexId).remove(edge.edgeId());
+
+            if (job != null)
+            {
+                AbstractMessage message = new EdgeRemovedMessage(edge);
+                job.registerMessage(message);
+            }
 		}
 		
 		// notify fromVertex that its neighbourhood has been reduced
