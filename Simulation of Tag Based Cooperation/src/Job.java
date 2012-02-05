@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Job
 {
@@ -17,7 +18,7 @@ public class Job
     protected String           filename;
 
     protected double donationRates[];
-    protected Object logs[];
+    protected ArrayList<AbstractMessage> messages = new ArrayList<AbstractMessage>();
 
     protected static int nextJobId = 0;
     protected int jobId;
@@ -310,5 +311,10 @@ public class Job
     {
         return String.format("Population Size: %d, Number of Pairings: %d, Rewire strategy: %s, Context Influence: %f\n",
                 populationSizeAsInteger(populationSize), numberOfPairingsAsInteger(numberOfPairings), rewireStrategyAsString(rewireStrategy), contextInfluence);
+    }
+
+    public void RegisterMessage(AbstractMessage message)
+    {
+        messages.add(message);
     }
 }
