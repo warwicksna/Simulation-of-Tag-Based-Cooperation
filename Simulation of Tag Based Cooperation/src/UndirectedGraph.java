@@ -42,6 +42,14 @@ public class UndirectedGraph extends AbstractGraph
 		
 		AbstractVertex vertexB = vertices.get(vertexBId);
 		vertexB.neighbourWasAdded(vertexAId);
+
+        if (job == null)
+        {
+            return;
+        }
+
+        AbstractMessage message = new EdgeAddedMessage(edge);
+        job.registerMessage(message);
 	}
 	
 	public void removeEdge(String vertexAId, String vertexBId)
