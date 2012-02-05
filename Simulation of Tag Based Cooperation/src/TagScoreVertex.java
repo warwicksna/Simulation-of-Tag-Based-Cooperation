@@ -220,7 +220,9 @@ public class TagScoreVertex extends AbstractVertex
 		}
 		
 		// learn from the more successful agent (with chance of mutation)
-		double[] newTagAndTolerance = tagAndToleranceWithChanceOfMutation(0.1);
+		//double[] newTagAndTolerance = tagAndToleranceWithChanceOfMutation(0.1);
+        double[] newTagAndTolerance = tagAndToleranceWithChanceOfMutation(0.001);
+
 		tag = newTagAndTolerance[0];
 		tolerance = newTagAndTolerance[1];
 		
