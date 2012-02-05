@@ -70,6 +70,12 @@ public class UndirectedGraph extends AbstractGraph
 			edgeIdsFromVertexA.remove(edgeId);
 			edges.remove(edgeId);
 
+            if (job != null)
+            {
+                AbstractMessage message = new EdgeRemovedMessage(edge);
+                job.registerMessage(message);
+            }
+
             break;
 		}
 		
@@ -92,6 +98,12 @@ public class UndirectedGraph extends AbstractGraph
 			ArrayList<String> edgeIdsFromVertexB = incidenceList.get(vertexBId);
 			edgeIdsFromVertexB.remove(edgeId);
 			edges.remove(edgeId);
+
+            if (job != null)
+            {
+                AbstractMessage message = new EdgeRemovedMessage(edge);
+                job.registerMessage(message);
+            }
 		}
 		
 		// notify vertexB that its neighbourhood has been reduced
