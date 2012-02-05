@@ -1,5 +1,8 @@
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.io.BufferedWriter;;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Job
 {
@@ -316,5 +319,48 @@ public class Job
     public void RegisterMessage(AbstractMessage message)
     {
         messages.add(message);
+    }
+
+    public void WriteMessagesToFile(String filename)
+    {
+        FileWriter fw = null;
+        BufferedWriter bw;
+
+        try
+        {
+            fw = fw = new FileWriter(filename);
+        }
+        catch (IOException ex)
+        {
+            System.err.println("Error: could not open file " + filename + " to write job messages to");
+            System.err.println(ex.getMessage());
+            return;
+        }
+
+        bw = new BufferedWriter(fw);
+
+        try
+        {
+            for (AbstractMessage message : messages)
+            {
+                bw.write(message.toString());
+                bw.newLine();
+            }
+        }
+        catch (IOException ex)
+        {
+            System.err.println("Error: could not write message to file " + filename);
+            System.err.println(ex.getMessage());
+        }
+
+        try
+        {
+            bw.close();
+        }
+        catch (IOException ex)
+        {
+            System.err.println("Could not close file " + filename);
+            System.err.println(ex.getMessage());
+        }
     }
 }
