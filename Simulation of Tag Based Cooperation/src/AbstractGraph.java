@@ -43,6 +43,13 @@ public abstract class AbstractGraph
 		vertexList.add(vertexId);
 		
 		incidenceList.put(vertex.vertexId(), new ArrayList<String>());		
+
+        // job is not null for vertices being added which were not in the graphml
+        if (job != null)
+        {
+            AbstractMessage message = new VertexAddedMessage((TagScoreVertex) vertex);
+            job.registerMessage(message);
+        }
 	}
 	
 	public abstract void addEdge(AbstractVertex vertexA, AbstractVertex vertexB);
