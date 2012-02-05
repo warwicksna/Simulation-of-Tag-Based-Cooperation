@@ -49,6 +49,8 @@ public class Job
             // Step n iterations
             for (int iteration = 0; iteration < iterationCount; iteration++)
             {
+                TimeIntervalBegunMessage message = new TimeIntervalBegunMessage();
+                RegisterMessage(message);
                 AbstractVertex randomVertex = graph.randomVertex();
                 randomVertex.step();
             }
