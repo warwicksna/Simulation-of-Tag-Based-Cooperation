@@ -1,25 +1,82 @@
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 public class CooperationSimulation
 {
+	public static void appendToCSV(String graphType, RewireStrategy rewireStrategy, int vertexCount, int edgeDegree, double donationRate)
+	{
+		try
+		{
+			FileWriter fileWriter = new FileWriter("output.csv", true);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(String.format("%s, %s, %d, %d, %f\n", graphType, Job.rewireStrategyAsString(rewireStrategy), vertexCount, edgeDegree, donationRate));
+			bufferedWriter.close();
+		} catch (IOException ex)
+		{
+			System.err.println("Could not write to results file: " + ex.getMessage());
+		}
+	}
+	
 	public static void main(String args[])
-	{		
-       System.out.println("========== CONTEXT INFLUENCE ================");
-        for (double contextInfluence = 0; contextInfluence <= 1; contextInfluence += 0.1)
-        {
-            Job job = new Job();
+	{
+		String graphTypes[] = { "Random", "Scale-Free", "Small-World" };
+		int edgeDegrees[] = { 1, 2, 3, 4, 5, 10, 15, 20, 25 };
+		int vertexCounts[] = { 100, 200, 300, 400, 500 };
+		RewireStrategy rewireStrategies[] = { RewireStrategy.Random, RewireStrategy.RandomReplaceWorst, RewireStrategy.IndividualReplaceWorst, RewireStrategy.GroupReplaceWorst };
+		
+		for (int graphTypeIndex = 0; graphTypeIndex < graphTypes.length; graphTypeIndex++)
+		{
+			String graphType = graphTypes[graphTypeIndex];
+			for (int edgeDegreeIndex = 0; edgeDegreeIndex < edgeDegrees.length; edgeDegreeIndex++)
+			{
+				int edgeDegree = edgeDegrees[edgeDegreeIndex];
+				for (int vertexCountIndex = 0; vertexCountIndex < vertexCounts.length; vertexCountIndex++)
+				{
+					int vertexCount = vertexCounts[vertexCountIndex];
 
-            job.setRewireStrategy(RewireStrategy.None);
-            job.setNumberOfPairings(NumberOfPairings.Pairings10);
-            job.setPopulationSize(PopulationSize.Population100);
-            job.setIterationCount(100000);
-            job.setContextInfluence(contextInfluence);
-            job.setProbabilityOfLearning(0.1);
-            job.setRewireProportion(0.6);
-            job.setCheatingPercentage(0.1);
+					for (int rewireStrategyIndex = 0; rewireStrategyIndex < rewireStrategies.length; rewireStrategyIndex++)
+					{
+						RewireStrategy rewireStrategy = rewireStrategies[rewireStrategyIndex];
+						
+						Job job = new Job();
 
-            job.run(10);
+				        job.setRewireStrategy(rewireStrategy);
+						job.setGraphType(graphType);
+						job.setVertexCount(vertexCount);
+						job.setEdgeDegree(edgeDegree);
+				        job.setIterationCount(100000);
+				        job.setContextInfluence(0.5);
+				        job.setProbabilityOfLearning(0.001);
+				        job.setRewireProportion(0.6);
+				        job.setCheatingPercentage(0.1);
 
-            job.writeMessagesToFile("context_influence_" + String.format("%.1f", contextInfluence) + ".log");
-        }
+						job.run(10);
+						
+						appendToCSV(graphType, rewireStrategy, vertexCount, edgeDegree, job.medianDonationRate());
+					}
+				}
+			}
+		}
+		
+       // System.out.println("========== CONTEXT INFLUENCE ================");
+       //  for (double contextInfluence = 0; contextInfluence <= 1; contextInfluence += 0.1)
+       //  {
+       //      Job job = new Job();
+       // 
+       //      job.setRewireStrategy(RewireStrategy.None);
+       //      job.setNumberOfPairings(NumberOfPairings.Pairings10);
+       //      job.setPopulationSize(PopulationSize.Population100);
+       //      job.setIterationCount(100000);
+       //      job.setContextInfluence(contextInfluence);
+       //      job.setProbabilityOfLearning(0.1);
+       //      job.setRewireProportion(0.6);
+       //      job.setCheatingPercentage(0.1);
+       // 
+       //      job.run(10);
+       // 
+       //      job.writeMessagesToFile("context_influence_" + String.format("%.1f", contextInfluence) + ".log");
+       //  }
 
 //        System.out.println("========== CHEATERS = 10% ================");
 

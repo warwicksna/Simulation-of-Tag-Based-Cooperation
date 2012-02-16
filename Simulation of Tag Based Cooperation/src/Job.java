@@ -16,6 +16,10 @@ public class Job
     protected double           rewireProportion = 0.6;
     protected double           cheatingPercentage = 0.1;
 
+	protected int vertexCount = 100;
+	protected int edgeDegree = 1;
+	protected String graphType = "Random";
+
     protected int              currentRun = 0;
 
     protected String           filename;
@@ -37,7 +41,8 @@ public class Job
 
         donationRates = new double[repitionCount];
 
-        filename = graphMLFilename(populationSize, numberOfPairings);
+        // filename = graphMLFilename(populationSize, numberOfPairings);
+		filename = graphMLFilename2(graphType, vertexCount, edgeDegree * vertexCount);
 
         for (currentRun = 0; currentRun < repitionCount; currentRun++)
         {
@@ -65,19 +70,20 @@ public class Job
 
     public void printDescription()
     {
-        System.out.format("Job %d\n==================================\n", jobId);
-        System.out.println("       Population size: " + populationSizeAsInteger(populationSize));
-        System.out.println("    Number of pairings: " + numberOfPairingsAsInteger(numberOfPairings));
-        System.out.println("     Rewiring strategy: " + rewireStrategyAsString(rewireStrategy));
-        System.out.format("    Rewire percentage: %.3f\n", rewireProportion);
-        System.out.format("     Context Influence: %.3f\n", contextInfluence);
-        System.out.format("   Cheating Percentage: %.3f\n", cheatingPercentage);
-        System.out.println("----------------------------------");
-        System.out.format(" Average donation rate: %.3f\n", averageDonationRate());
-        System.out.format(" Minimum donation rate: %.3f\n", minimumDonationRate());
-        System.out.format(" Maximum donation rate: %.3f\n", maximumDonationRate());
-        System.out.format("  Median donation rate: %.3f\n", medianDonationRate());
-        System.out.println("----------------------------------\n");
+		System.out.format("Job %d: %s - %s - %d nodes - %d edge degree\n", jobId, graphType, rewireStrategyAsString(rewireStrategy), vertexCount, edgeDegree);
+        // System.out.format("Job %d\n==================================\n", jobId);
+        // System.out.println("       Population size: " + populationSizeAsInteger(populationSize));
+        // System.out.println("    Number of pairings: " + numberOfPairingsAsInteger(numberOfPairings));
+        // System.out.println("     Rewiring strategy: " + rewireStrategyAsString(rewireStrategy));
+        // System.out.format("    Rewire percentage: %.3f\n", rewireProportion);
+        // System.out.format("     Context Influence: %.3f\n", contextInfluence);
+        // System.out.format("   Cheating Percentage: %.3f\n", cheatingPercentage);
+        // System.out.println("----------------------------------");
+        // System.out.format(" Average donation rate: %.3f\n", averageDonationRate());
+        // System.out.format(" Minimum donation rate: %.3f\n", minimumDonationRate());
+        // System.out.format(" Maximum donation rate: %.3f\n", maximumDonationRate());
+        // System.out.format("  Median donation rate: %.3f\n", medianDonationRate());
+        // System.out.println("----------------------------------\n");
     }
 
     public double averageDonationRate()
@@ -244,6 +250,36 @@ public class Job
         cheatingPercentage = percentage;
     }
 
+	public int edgeDegree()
+	{
+		return edgeDegree;
+	}
+	
+	public void setEdgeDegree(int degree)
+	{
+		edgeDegree = degree;
+	}
+	
+	public int vertexCount()
+	{
+		return vertexCount;
+	}
+	
+	public void setVertexCount(int count)
+	{
+		vertexCount = count;
+	}
+
+	public String graphType()
+	{
+		return graphType;
+	}
+	
+	public void setGraphType(String type)
+	{
+		graphType = type;
+	}
+
     public static String rewireStrategyAsString(RewireStrategy strategy)
     {
         switch (strategy)
@@ -311,6 +347,11 @@ public class Job
     {
         return String.format("graphs/pop_size_%d.pairing_count_%d.directed.graphml", populationSizeAsInteger(size), numberOfPairingsAsInteger(pairings));
     }
+
+	public static String graphMLFilename2(String graphType, int populationSize, int edgeCount)
+	{
+		return String.format("graphs/%s - %d nodes - %d edges.graphml", graphType, populationSize, edgeCount);
+	}
 
     public String toString()
     {
