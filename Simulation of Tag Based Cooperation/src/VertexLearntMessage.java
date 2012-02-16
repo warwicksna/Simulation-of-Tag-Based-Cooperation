@@ -17,4 +17,9 @@ public class VertexLearntMessage extends AbstractMessage
     {
         return "VertexLearnt " + vertexId + " " + donorId + " " + newTag + " " + newTolerance;
     }
+
+    public String toSqlString()
+    {
+        return "INSERT INTO MessageProperties (Data, TimeStamp) VALUES ('\"message\":{\"type\": learnt, \"vertex\": vertexId, \"donor\": donorId, \"tag\": newTag, \"tolerance\": newTolerance}', 0);";
+    }
 }

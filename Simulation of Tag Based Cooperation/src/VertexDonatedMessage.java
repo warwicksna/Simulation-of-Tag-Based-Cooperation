@@ -13,4 +13,9 @@ public class VertexDonatedMessage extends AbstractMessage
     {
         return "VertexDonated " + donorVertexId + " " + receivingVertexId;
     }
+
+    public String toSqlString()
+    {
+        return "INSERT INTO MessageProperties (TimeStamp) VALUES (" + 0 + ");";
+    }
 }

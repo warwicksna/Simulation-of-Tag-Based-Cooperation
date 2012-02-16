@@ -15,4 +15,9 @@ public class VertexAddedMessage extends AbstractMessage
     {
         return "VertexAdded " + vertexId + " " + tag + " " + tolerance;
     }
+
+    public String toSqlString()
+    {
+        return "INSERT INTO Entity (EntityName) VALUES (" + vertexId + ");";
+    }
 }

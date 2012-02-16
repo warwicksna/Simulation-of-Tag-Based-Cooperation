@@ -11,4 +11,9 @@ public class VertexRemovedMessage extends AbstractMessage
     {
         return "VertexRemoved " + vertexId;
     }
+
+    public String toSqlString()
+    {
+        return "DELETE FROM Entity WHERE EntityName = '" + vertexId + "';";
+    }
 }

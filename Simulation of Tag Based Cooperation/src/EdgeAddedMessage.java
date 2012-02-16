@@ -17,4 +17,9 @@ public class EdgeAddedMessage extends AbstractMessage
     {
         return "EdgeAdded " + edgeId + " " + isDirected + " " + vertexAId + " " + vertexBId;
     }
+
+    public String toSqlString()
+    {
+        return "INSERT INTO Connected (FromEntityId, ToEntityId, Strength, Initial) VALUES (" + vertexAId + ", " + vertexBId + ", 1, 0);";
+    }
 }
