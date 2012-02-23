@@ -173,6 +173,8 @@ public class Job
 
             writeDonationCount(iterationCount, graph.donationRate());
             donationRates[currentRun] = graph.donationRate();
+            
+            // graph.writeToGraphML("a.graphml");
         }
         
         closeJobWriter();

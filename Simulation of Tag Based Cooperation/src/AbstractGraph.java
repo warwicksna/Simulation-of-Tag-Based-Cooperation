@@ -2,6 +2,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.io.BufferedWriter;;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public abstract class AbstractGraph
 {
@@ -290,6 +293,61 @@ public abstract class AbstractGraph
 
             // decrement number left to convert
             numNodesToConvert--;
+        }
+    }
+    
+    public void writeToGraphML(String filename)
+    {
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+        
+        try
+        {
+            fileWriter = new FileWriter(filename);
+            bufferedWriter = new BufferedWriter(fileWriter);
+        }
+        catch (IOException ex)
+        {
+            System.err.print("Could not open " + filename + " for writing: " + ex.getMessage());
+            return;
+        }
+        
+        try
+        {
+            bufferedWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+            bufferedWriter.write("<graphml xmlns=\"http://graphml.graphdrawing.org/xmlns/graphml \nxmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance \nxsi:schemaLocation=\"http://graphml.graphdrawing.org/xmlns/graphml\">\n");
+            
+            if (this instanceof DirectedGraph)
+            {
+                bufferedWriter.write("<graph edgedefault=\"directed\">\n");
+            }
+            else
+            {
+                bufferedWriter.write("<graph edgedefault=\"undirected\">\n");
+            }
+            
+            // write nodes
+            for (String nodeId : vertices.keySet())
+            {
+                bufferedWriter.write("<node id \"" + nodeId + "\" />\n");
+            }
+            
+            // write edges
+            for (Map.Entry<String, AbstractEdge> edgeEntry : edges.entrySet())
+            {
+                AbstractEdge edge = edgeEntry.getValue();
+                bufferedWriter.write("<edge source=\"" + edge.firstVertexId() + "\" target=\"" + edge.secondVertexId() + "\" />\n");
+            }
+            
+            bufferedWriter.write("</graph>");
+            bufferedWriter.write("</graphml>");
+            
+            bufferedWriter.close();
+        }
+        catch (IOException ex)
+        {
+            System.err.println("Could not write to " + filename + ": " + ex.getMessage());
+            return;
         }
     }
 }
