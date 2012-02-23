@@ -59,7 +59,7 @@ public class Job
 	{
 	    try
 	    {
-	        FileWriter fileWriter = new FileWriter("results/raw/job " + jobId + ".txt");
+	        FileWriter fileWriter = new FileWriter("results/raw/jobs.txt", true);
 	        jobWriter = new BufferedWriter(fileWriter);
 	        jobWriter.write(String.format("JOB %s, %s, %d, %d\n",
 	            graphType,
@@ -69,7 +69,7 @@ public class Job
 	    }
 	    catch (IOException ex)
 	    {
-	        System.err.println("Could not create data file job " + jobId + ".txt: " + ex.getMessage());
+	        System.err.println("Could not create data file jobs.txt: " + ex.getMessage());
 	    }
 	}
 	
@@ -81,7 +81,7 @@ public class Job
 	    }
 	    catch (IOException ex)
 	    {
-	        System.err.println("Could not write to raw data file job " + jobId + ".txt: " + ex.getMessage());
+	        System.err.println("Could not write to raw data file jobs.txt: " + ex.getMessage());
 	    }
 	}
 	
@@ -93,7 +93,7 @@ public class Job
 	    }
 	    catch (IOException ex)
 	    {
-	        System.err.println("Could not write to raw data file job "+ jobId +".txt: " + ex.getMessage());
+	        System.err.println("Could not write to raw data file jobs.txt: " + ex.getMessage());
 	    }
 	}
 	
@@ -105,7 +105,7 @@ public class Job
 	    }
 	    catch (IOException ex)
 	    {
-	        System.err.println("Could not close raw data file job " + jobId + ".txt: " + ex.getMessage());
+	        System.err.println("Could not close raw data file jobs.txt: " + ex.getMessage());
 	    }
 	}
 
@@ -142,15 +142,26 @@ public class Job
                 AbstractVertex randomVertex = graph.randomVertex();
                 randomVertex.step();
 
-				if (iteration < 1000 && iteration % 100 == 0)
+				if (iteration < 100 && iteration % 50 == 0)
 				{
 				    writeDonationCount(iteration, graph.donationRate());
                     // appendToCSV("iterations", iteration);
 				}
-				else if (iteration % 1000 == 0)
+				else if (iteration < 500 && iteration % 120 == 0)
 				{
 				    writeDonationCount(iteration, graph.donationRate());
-                    // appendToCSV("iterations", iteration);
+				}
+				else if (iteration < 1000 && iteration % 250 == 0)
+				{
+				    writeDonationCount(iteration, graph.donationRate());
+				}
+				else if (iteration < 10000 && iteration % 1000 == 0)
+				{
+				    writeDonationCount(iteration, graph.donationRate());
+				}
+				else if (iteration % 10000 == 0)
+				{
+				    writeDonationCount(iteration, graph.donationRate());
 				}
             }
 
