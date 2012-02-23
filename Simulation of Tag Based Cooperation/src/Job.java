@@ -6,33 +6,39 @@ import java.io.IOException;
 
 public class Job
 {
-    protected double           contextInfluence = 0.5;
-    protected RewireStrategy   rewireStrategy   = RewireStrategy.Random;
-    protected NumberOfPairings numberOfPairings = NumberOfPairings.Pairings10;
-    protected PopulationSize   populationSize   = PopulationSize.Population100;
-    protected int              iterationCount   = 100;
+    // Determines the properties of this job
+    protected double           contextInfluence      = 0.5;
+    protected RewireStrategy   rewireStrategy        = RewireStrategy.Random;
+    protected NumberOfPairings numberOfPairings      = NumberOfPairings.Pairings10;
+    protected PopulationSize   populationSize        = PopulationSize.Population100;
+    protected int              iterationCount        = 100;
     protected double           probabilityOfLearning = 0.1;
     protected int              repitionCount;
-    protected double           rewireProportion = 0.6;
-    protected double           cheatingPercentage = 0.1;
+    protected double           rewireProportion      = 0.6;
+    protected double           cheatingPercentage    = 0.1;
 
-	protected int vertexCount = 100;
-	protected int edgeDegree = 1;
-	protected String graphType = "Random";
+    // Determines the graph to read in
+	protected int              vertexCount           = 100;
+	protected int              edgeDegree            = 1;
+	protected String           graphType             = "Random";
 
-    protected int              currentRun = 0;
+    protected int              currentRun            = 0;
 
+    // Filename of graph to read in
     protected String           filename;
 
+    // Stores the donation rates for each run
     protected double donationRates[];
+    
+    // Stores the messages created during a run
     protected ArrayList<AbstractMessage> messages = new ArrayList<AbstractMessage>();
 
+    // For determining a unique identifier for this job
     protected static int nextJobId = 0;
     protected int jobId;
 
+    // Used to write the results to a file
     protected BufferedWriter jobWriter;
-
-
 
 	public void appendToCSV(String name, int iterationCount)
 	{
@@ -59,7 +65,7 @@ public class Job
 	{
 	    try
 	    {
-	        FileWriter fileWriter = new FileWriter("results/raw/jobs.txt", true);
+	        FileWriter fileWriter = new FileWriter("results/jobs.txt", true);
 	        jobWriter = new BufferedWriter(fileWriter);
 	        jobWriter.write(String.format("JOB %s, %s, %d, %d\n",
 	            graphType,
