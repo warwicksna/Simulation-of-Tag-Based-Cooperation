@@ -257,6 +257,11 @@ public abstract class AbstractGraph
 
     public double donationRate()
     {
+        if (possibleDonationCount == 0)
+        {
+            return 0;
+        }
+        
         return (double) donationCount / (double) possibleDonationCount;
     }
 
