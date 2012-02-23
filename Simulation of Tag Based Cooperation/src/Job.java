@@ -30,6 +30,85 @@ public class Job
     protected static int nextJobId = 0;
     protected int jobId;
 
+    protected BufferedWriter jobWriter;
+
+
+
+	public void appendToCSV(String name, int iterationCount)
+	{
+		try
+		{
+			FileWriter fileWriter = new FileWriter("results/" + name + ".csv", true);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(String.format("%s, %s, %d, %d, %d, %f\n",
+				graphType,
+				rewireStrategyAsString(rewireStrategy),
+				vertexCount,
+				edgeDegree,
+				iterationCount,
+				medianDonationRate()));
+			bufferedWriter.close();
+		}
+		catch (IOException ex)
+		{
+			System.err.println("Could not write to csv file " + name + ".csv: " + ex.getMessage());
+		}
+	}
+	
+	private void initialiseJobWriter()
+	{
+	    try
+	    {
+	        FileWriter fileWriter = new FileWriter("results/raw/job " + jobId + ".txt");
+	        jobWriter = new BufferedWriter(fileWriter);
+	        jobWriter.write(String.format("JOB %s, %s, %d, %d\n",
+	            graphType,
+	            rewireStrategyAsString(rewireStrategy),
+	            vertexCount,
+	            edgeDegree));
+	    }
+	    catch (IOException ex)
+	    {
+	        System.err.println("Could not create data file job " + jobId + ".txt: " + ex.getMessage());
+	    }
+	}
+	
+	private void writeNewRun(int run)
+	{
+	    try
+	    {
+	        jobWriter.write(String.format("RUN %d\n", run));
+	    }
+	    catch (IOException ex)
+	    {
+	        System.err.println("Could not write to raw data file job " + jobId + ".txt: " + ex.getMessage());
+	    }
+	}
+	
+	private void writeDonationCount(int iteration, double donationRate)
+	{
+	    try
+	    {
+	        jobWriter.write(String.format("%d %f\n", iteration, donationRate));
+	    }
+	    catch (IOException ex)
+	    {
+	        System.err.println("Could not write to raw data file job "+ jobId +".txt: " + ex.getMessage());
+	    }
+	}
+	
+	private void closeJobWriter()
+	{
+	    try
+	    {
+	        jobWriter.close();
+	    }
+	    catch (IOException ex)
+	    {
+	        System.err.println("Could not close raw data file job " + jobId + ".txt: " + ex.getMessage());
+	    }
+	}
+
     public Job()
     {
         jobId = nextJobId++;
@@ -43,9 +122,13 @@ public class Job
 
         // filename = graphMLFilename(populationSize, numberOfPairings);
 		filename = graphMLFilename2(graphType, vertexCount, edgeDegree * vertexCount);
+		
+		initialiseJobWriter();
 
         for (currentRun = 0; currentRun < repitionCount; currentRun++)
         {
+            writeNewRun(currentRun);
+            
             // Generate a new copy of the graph from file
             AbstractGraph graph = new GraphMLParser().generateGraphFromFile(filename);
             graph.setJob(this);
@@ -58,10 +141,24 @@ public class Job
                 registerMessage(message);
                 AbstractVertex randomVertex = graph.randomVertex();
                 randomVertex.step();
+
+				if (iteration < 1000 && iteration % 100 == 0)
+				{
+				    writeDonationCount(iteration, graph.donationRate());
+                    // appendToCSV("iterations", iteration);
+				}
+				else if (iteration % 1000 == 0)
+				{
+				    writeDonationCount(iteration, graph.donationRate());
+                    // appendToCSV("iterations", iteration);
+				}
             }
 
+            writeDonationCount(iterationCount, graph.donationRate());
             donationRates[currentRun] = graph.donationRate();
         }
+        
+        closeJobWriter();
 
         printDescription();
 
