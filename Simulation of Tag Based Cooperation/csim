@@ -1,0 +1,6 @@
+#!/bin/sh
+
+rm results/*.csv
+rm results/raw/*
+
+java -cp 'bin' CooperationSimulation
