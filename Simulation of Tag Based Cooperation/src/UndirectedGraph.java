@@ -56,20 +56,22 @@ public class UndirectedGraph extends AbstractGraph
 	{
 		// remove edge A -> B
 		ArrayList<String> incidenceListForVertexA = new ArrayList<String>(incidenceList.get(vertexAId));
-		
+				
 		for (String edgeId : incidenceListForVertexA)
 		{
-			AbstractEdge edge = edges.get(edgeId);
+			AbstractEdge edge = edges.get(edgeId);			
 			if (!edge.secondVertexId().equals(vertexBId))
 			{
 				continue;
 			}
 			
+            // System.out.println("Found: " + edge.firstVertexId() + " --> " + edge.secondVertexId());
+					
 			// remove edge
 			ArrayList<String> edgeIdsFromVertexA = incidenceList.get(vertexAId);
 			edgeIdsFromVertexA.remove(edgeId);
-			edges.remove(edgeId);
-
+            // edges.remove(edgeId);
+			
             if (job != null)
             {
                 AbstractMessage message = new EdgeRemovedMessage(edge);
@@ -82,30 +84,39 @@ public class UndirectedGraph extends AbstractGraph
 		// notify vertexA that its neighbourhood has been reduced
 		AbstractVertex vertexA = vertices.get(vertexAId);
 		vertexA.neighbourWasRemoved(vertexBId);
-		
+				
 		// remove edge B -> A
 		ArrayList<String> incidenceListForVertexB = new ArrayList<String>(incidenceList.get(vertexBId));
-		
+				
 		for (String edgeId : incidenceListForVertexB)
-		{
+		{		    
 			AbstractEdge edge = edges.get(edgeId);
+			
+			if (edge == null)
+			{
+			    System.out.println("Edge is null");
+			    continue;
+			}
+			
 			if (!edge.firstVertexId().equals(vertexAId))
 			{
 				continue;
 			}
 			
+            // System.out.println("Found: " + edge.firstVertexId() + " <-- " + edge.secondVertexId());
+						
 			// remove edge
 			ArrayList<String> edgeIdsFromVertexB = incidenceList.get(vertexBId);
 			edgeIdsFromVertexB.remove(edgeId);
 			edges.remove(edgeId);
-
+			
             if (job != null)
             {
                 AbstractMessage message = new EdgeRemovedMessage(edge);
                 job.registerMessage(message);
             }
 		}
-		
+				
 		// notify vertexB that its neighbourhood has been reduced
 		AbstractVertex vertexB = vertices.get(vertexBId);
 		vertexB.neighbourWasRemoved(vertexAId);
