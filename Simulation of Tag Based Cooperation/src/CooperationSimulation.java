@@ -8,7 +8,7 @@ public class CooperationSimulation
 	{
 		try
 		{
-			FileWriter fileWriter = new FileWriter("output.csv", true);
+			FileWriter fileWriter = new FileWriter("results/master.csv", true);
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 			bufferedWriter.write(String.format("%s, %s, %d, %d, %f\n", graphType, Job.rewireStrategyAsString(rewireStrategy), vertexCount, edgeDegree, donationRate));
 			bufferedWriter.close();
@@ -18,12 +18,35 @@ public class CooperationSimulation
 		}
 	}
 	
+	public static void appendToCSV(String name, String graphType, RewireStrategy rewireStrategy, int vertexCount, int edgeDegree, int iterationCount, double donationRate)
+	{
+		try
+		{
+			FileWriter fileWriter = new FileWriter("results/" + name + ".csv", true);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(String.format("%s, %s, %d, %d, %d, %f\n",
+				graphType,
+				rewireStrategy,
+				vertexCount,
+				edgeDegree,
+				iterationCount,
+				donationRate));
+			bufferedWriter.close();
+		}
+		catch (IOException ex)
+		{
+			System.err.println("Could not write to csv file " + name + ".csv: " + ex.getMessage());
+		}
+	}
+	
 	public static void main(String args[])
 	{
 		String graphTypes[] = { "Random", "Scale-Free", "Small-World" };
 		int edgeDegrees[] = { 1, 2, 3, 4, 5, 10, 15, 20, 25 };
 		int vertexCounts[] = { 100, 200, 300, 400, 500 };
 		RewireStrategy rewireStrategies[] = { RewireStrategy.Random, RewireStrategy.RandomReplaceWorst, RewireStrategy.IndividualReplaceWorst, RewireStrategy.GroupReplaceWorst };
+		
+		int iterationCount = 100000;
 		
 		for (int graphTypeIndex = 0; graphTypeIndex < graphTypes.length; graphTypeIndex++)
 		{
@@ -45,7 +68,7 @@ public class CooperationSimulation
 						job.setGraphType(graphType);
 						job.setVertexCount(vertexCount);
 						job.setEdgeDegree(edgeDegree);
-				        job.setIterationCount(100000);
+				        job.setIterationCount(iterationCount);
 				        job.setContextInfluence(0.5);
 				        job.setProbabilityOfLearning(0.001);
 				        job.setRewireProportion(0.6);
@@ -53,7 +76,11 @@ public class CooperationSimulation
 
 						job.run(10);
 						
-						appendToCSV(graphType, rewireStrategy, vertexCount, edgeDegree, job.medianDonationRate());
+						// appendToCSV(graphType, rewireStrategy, vertexCount, edgeDegree, job.medianDonationRate());
+						
+						appendToCSV("master", graphType, rewireStrategy, vertexCount, edgeDegree, iterationCount, job.medianDonationRate());
+						appendToCSV(graphType + " graph", graphType, rewireStrategy, vertexCount, edgeDegree, iterationCount, job.medianDonationRate());
+						appendToCSV(job.rewireStrategyAsString(rewireStrategy) + " rewire strategy", graphType, rewireStrategy, vertexCount, edgeDegree, iterationCount, job.medianDonationRate());
 					}
 				}
 			}
