@@ -1,5 +1,8 @@
 #!/bin/sh
 
+mkdir results
+mkdir results/raw
+
 rm results/*.csv
 rm results/raw/*
 
