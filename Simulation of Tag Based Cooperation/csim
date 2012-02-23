@@ -1,9 +1,7 @@
 #!/bin/sh
 
 mkdir results
-mkdir results/raw
 
-rm results/*.csv
-rm results/raw/*
+rm results/*
 
 java -cp 'bin' CooperationSimulation
