@@ -63,7 +63,7 @@ public class TagScoreVertex extends AbstractVertex
 	
 	public void step()
 	{
-//		System.out.format("Agent %s stepping\n", vertexId);
+        // System.out.println(vertexId + " stepping");
 		donate();
 		learn();
 	}
@@ -133,6 +133,25 @@ public class TagScoreVertex extends AbstractVertex
 	{
 		// get observation queue based on neighbour id
 		ObservationQueue neighbourObservations = observations.get(neighbourId);
+		
+		if (neighbourObservations == null)
+		{
+            System.err.println("Error in: " + vertexId + ".neighbourDidDonate(" + neighbourId + ", " + didDonate + ")");
+            for (AbstractVertex neighbour : graph.get().neighboursForVertex(vertexId))
+            {
+                System.out.println("neighbour = " + neighbour.vertexId());
+            }
+            
+            for (String vid : observations.keySet())
+            {
+                System.out.println("observation = " + vid);
+            }
+            
+            for (AbstractVertex neighbour : graph.get().neighboursForVertex(neighbourId))
+            {
+                System.out.println("am i a neighbour? = " + neighbour.vertexId());
+            }
+		}
 		
 		// add to ((Boolean) didDonate) to observation queue
 		neighbourObservations.observe(didDonate);
@@ -593,12 +612,14 @@ public class TagScoreVertex extends AbstractVertex
 	
 	public void neighbourWasAdded(String neighbourId)
 	{
+        // System.out.println(vertexId + " adding neighbour " + neighbourId);
 		// add an observation queue for neighbour
 		observations.put(neighbourId, new ObservationQueue());
 	}
 	
 	public void neighbourWasRemoved(String neighbourId)
 	{
+        // System.out.println(vertexId + " removing neighbour " + neighbourId);
 		// remove the observation queue for neighbour
 		observations.remove(neighbourId);
 	}

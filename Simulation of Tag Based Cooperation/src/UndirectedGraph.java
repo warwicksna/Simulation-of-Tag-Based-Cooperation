@@ -54,22 +54,43 @@ public class UndirectedGraph extends AbstractGraph
 	
 	public void removeEdge(String vertexAId, String vertexBId)
 	{
+	    System.out.println("removing " + vertexAId + " <--> " + vertexBId);
 		// remove edge A -> B
+		
+		System.out.println("Edges before\n============");
+		for (String incidence : incidenceList.get(vertexAId))
+		{
+		    System.out.println(incidence);
+		}
+		
 		ArrayList<String> incidenceListForVertexA = new ArrayList<String>(incidenceList.get(vertexAId));
 				
 		for (String edgeId : incidenceListForVertexA)
 		{
-			AbstractEdge edge = edges.get(edgeId);			
-			if (!edge.secondVertexId().equals(vertexBId))
+			AbstractEdge edge = edges.get(edgeId);
+			
+			if (edge == null)
+			{
+			    System.out.println("Edge is null");
+			    continue;
+			}
+			
+			if (edge instanceof DirectedEdge && !edge.secondVertexId().equals(vertexBId))
 			{
 				continue;
 			}
+			else if (!edge.firstVertexId().equals(vertexBId) && !edge.secondVertexId().equals(vertexBId))
+			{
+			    continue;
+			}
 			
-            // System.out.println("Found: " + edge.firstVertexId() + " --> " + edge.secondVertexId());
+            System.out.println("Found: " + edgeId + " " + edge.firstVertexId() + " --> " + edge.secondVertexId());
 					
 			// remove edge
 			ArrayList<String> edgeIdsFromVertexA = incidenceList.get(vertexAId);
 			edgeIdsFromVertexA.remove(edgeId);
+			
+			incidenceList.get(vertexAId).remove(edgeId);
             // edges.remove(edgeId);
 			
             if (job != null)
@@ -98,12 +119,17 @@ public class UndirectedGraph extends AbstractGraph
 			    continue;
 			}
 			
-			if (!edge.firstVertexId().equals(vertexAId))
+			if (edge instanceof DirectedEdge && !edge.firstVertexId().equals(vertexAId))
 			{
 				continue;
 			}
+			else if (!edge.firstVertexId().equals(vertexAId) && !edge.secondVertexId().equals(vertexAId))
+			{
+			    continue;
+			}
 			
-            // System.out.println("Found: " + edge.firstVertexId() + " <-- " + edge.secondVertexId());
+			
+            System.out.println("Found: " + edge.firstVertexId() + " <-- " + edge.secondVertexId());
 						
 			// remove edge
 			ArrayList<String> edgeIdsFromVertexB = incidenceList.get(vertexBId);
@@ -115,6 +141,12 @@ public class UndirectedGraph extends AbstractGraph
                 AbstractMessage message = new EdgeRemovedMessage(edge);
                 job.registerMessage(message);
             }
+		}
+		
+		System.out.println("Edges after\n============");
+		for (String incidence : incidenceList.get(vertexAId))
+		{
+		    System.out.println(incidence);
 		}
 				
 		// notify vertexB that its neighbourhood has been reduced

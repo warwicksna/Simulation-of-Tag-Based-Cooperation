@@ -193,6 +193,19 @@ public abstract class AbstractGraph
 		for (String edgeId : edgeIdsForVertex)
 		{
 			AbstractEdge edge = edges.get(edgeId);
+			
+            // if (edge instanceof UndirectedEdge)
+            // {
+            //     if (edge.firstVertexId().equals(vertexId))
+            //     {
+            //         neighbours.add(edge.secondVertexId());
+            //     }
+            //     else
+            //     {
+            //         neighbours.add(edge.firstVertexId());
+            //     }
+            // }
+            // else
 			if (edge.firstVertexId().equals(vertexId))
 			{
 				neighbours.add(edge.secondVertexId());
